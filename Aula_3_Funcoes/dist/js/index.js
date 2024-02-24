@@ -1,6 +1,7 @@
+"use strict";
 /*
 Exercício:
-Considere um sistema de cadastro de usuários onde precisamos armazenar informações sobre os usuários. 
+Considere um sistema de cadastro de usuários onde precisamos armazenar informações sobre os usuários.
 Vamos criar variáveis e objetos para representar diferentes tipos de dados relacionados a um usuário.
 
 1- Crie as seguintes variáveis primitivas:
@@ -9,13 +10,10 @@ Vamos criar variáveis e objetos para representar diferentes tipos de dados rela
     email: do tipo string, representando o endereço de e-mail do usuário.
     isAtivo: do tipo boolean, representando se o usuário está ativo ou não.
 */
- 
-let nomeCompleto : string = "Flavia Goes";
-let idade : number = 19;
-let email : string = 'flavia04goes@outlook.com';
-let isAtivo : boolean = true;
-
-
+let nomeCompleto = "Flavia Goes";
+let idade = 19;
+let email = 'flavia04goes@outlook.com';
+let isAtivo = true;
 /*
 
 
@@ -30,17 +28,7 @@ let isAtivo : boolean = true;
     Em seguida, imprima todas as variáveis e propriedades do objeto usuario usando console.log.
 
 */
-
-let usuario: {
-    nome : string
-    sobrenome : string
-    idade : number
-    contato : {
-        email : string
-        telefone : string
-    }
-}
-
+let usuario;
 usuario = {
     nome: 'Flavia',
     sobrenome: 'Goes',
@@ -49,23 +37,8 @@ usuario = {
         email: 'flavia04goes@outlook.com',
         telefone: '(15) 982813267',
     }
-}
-
-
-// O type é tipo struct em C, define um tipo
-type Contato = {
-    email: string,
-    telefone: string
-}
-
-type pessoa = {
-    nome : string,
-    sobrenome : string,
-    idade : number,
-    contato : Contato,
-}
-
-let user : pessoa;
+};
+let user;
 user = {
     nome: 'Flavia',
     sobrenome: 'Goes',
@@ -74,14 +47,17 @@ user = {
         email: 'flavia04goes@outlook.com',
         telefone: '(15)982813267'
     }
-}
-
+};
+let contato1;
+contato1 = {
+    email: "flava04goes@outlook.com",
+    telefone: '(15)982813267',
+};
 console.log(user);
-
 /*
 
 Exercício:
-Vamos criar um sistema de gestão de produtos para uma loja online. 
+Vamos criar um sistema de gestão de produtos para uma loja online.
 Precisamos armazenar informações sobre diferentes produtos disponíveis na loja. Vamos criar variáveis e objetos para representar esses produtos.
 
 01 - Crie as seguintes variáveis primitivas:
@@ -99,4 +75,4 @@ Precisamos armazenar informações sobre diferentes produtos disponíveis na loj
     categorias: array de strings, representando as categorias às quais o produto pertence.
     Em seguida, imprima todas as variáveis e propriedades do objeto produto usando console.log.
 
-*/
+*/ 
