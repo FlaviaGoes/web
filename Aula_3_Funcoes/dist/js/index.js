@@ -1,78 +1,131 @@
 "use strict";
-/*
-Exercício:
-Considere um sistema de cadastro de usuários onde precisamos armazenar informações sobre os usuários.
-Vamos criar variáveis e objetos para representar diferentes tipos de dados relacionados a um usuário.
-
-1- Crie as seguintes variáveis primitivas:
-    nomeCompleto: do tipo string, representando o nome completo de um usuário.
-    idade: do tipo number, representando a idade do usuário.
-    email: do tipo string, representando o endereço de e-mail do usuário.
-    isAtivo: do tipo boolean, representando se o usuário está ativo ou não.
-*/
-let nomeCompleto = "Flavia Goes";
-let idade = 19;
-let email = 'flavia04goes@outlook.com';
-let isAtivo = true;
-/*
-
-
-2 -Crie um objeto usuario com as seguintes propriedades:
-
-    nome: string, representando o primeiro nome do usuário.
-    sobrenome: string, representando o sobrenome do usuário.
-    idade: number, representando a idade do usuário.
-    contato: objeto com as seguintes propriedades:
-    email: string, representando o endereço de e-mail do usuário.
-    telefone: string, representando o número de telefone do usuário (opcional).
-    Em seguida, imprima todas as variáveis e propriedades do objeto usuario usando console.log.
-
-*/
-let usuario;
-usuario = {
-    nome: 'Flavia',
-    sobrenome: 'Goes',
-    idade: 19,
-    contato: {
-        email: 'flavia04goes@outlook.com',
-        telefone: '(15) 982813267',
+// funcao nomeada
+function adicionar(x, y) {
+    return x + y;
+}
+// funcao anonima
+let add = function (x, y) { return (x + y); };
+//Funções com tipos
+function adicionarTipada(x, y) {
+    return x + y;
+}
+function somarTipada(p1, p2) {
+    let p = { x: p1.x + p2.x, y: p1.y + p2.y };
+    return p;
+}
+let ponto_1 = { x: 1, y: 5 };
+let ponto_2 = { x: 10, y: 20 };
+let ponto3 = somar(ponto_1, ponto_2); // retorna {x: 11, y: 25}
+//Parâmetros opcionais e padrões
+function nome(primeiro, ultimo) {
+    if (ultimo) {
+        return `${primeiro} ${ultimo}`;
     }
-};
-let user;
-user = {
-    nome: 'Flavia',
-    sobrenome: 'Goes',
-    idade: 19,
-    contato: {
-        email: 'flavia04goes@outlook.com',
-        telefone: '(15)982813267'
+    else {
+        return primeiro;
     }
-};
-let contato1;
-contato1 = {
-    email: "flava04goes@outlook.com",
-    telefone: '(15)982813267',
-};
-console.log(user);
+}
+nome('José', 'Silva'); // retorna 'José Silva'
+nome('José'); // retorna 'José'
+function inicializar(valor = 0) {
+    return valor;
+}
+inicializar(); // retorna 0
+inicializar(10); // retorna 10
+//Parâmetros rest
+//Não confundir com REST, recurso para definição de serviços sobre HTTP
+function concatenar(primeiro, ...ultimos) {
+    return primeiro + ' ' + ultimos.join(' ');
+}
+concatenar('a', 'b', 'c', 'd', 'e'); // retorna 'a b c d e';
+function somar(p1, p2) {
+    if (p1 instanceof Array) {
+        return [p1[0] + p2[0], p1[1] + p2[1]];
+    }
+    else {
+        return { x: p1.x + p2.x, y: p1.y + p2.y };
+    }
+}
+let ponto1 = { x: 1, y: 5 };
+let ponto2 = { x: 10, y: 20 };
+somar(ponto1, ponto2); // retorna {x: 11, y: 25}
+somar([1, 1], [2, 2]); // retorna [3, 3]
 /*
+Exercício 1: Calculadora Simples
+Crie uma função chamada calculadora que recebe três parâmetros:
+numero1 (um número), numero2 (um número) e operacao (uma string representando a operação a ser realizada: "soma", "subtracao", "multiplicacao" ou "divisao").
+A função deve retornar o resultado da operação entre numero1 e numero2.
 
-Exercício:
-Vamos criar um sistema de gestão de produtos para uma loja online.
-Precisamos armazenar informações sobre diferentes produtos disponíveis na loja. Vamos criar variáveis e objetos para representar esses produtos.
+Resultado esperado:
+console.log(calculadora(5, 3, "soma")); // Saída esperada: 8
+console.log(calculadora(10, 2, "subtracao")); // Saída esperada: 8
+console.log(calculadora(4, 5, "multiplicacao")); // Saída esperada: 20
+console.log(calculadora(10, 2, "divisao")); // Saída esperada: 5
 
-01 - Crie as seguintes variáveis primitivas:
+Dica:
+Estrutura switch-case
+switch(expression) {
+   case constant-expression1: {
+      //statements;
+      break;
+   }
+   case constant_expression2: {
+      //statements;
+      break;
+   }
+   default: {
+      //statements;
+      break;
+   }
+}
 
-    nomeProduto: do tipo string, representando o nome de um produto.
-    preco: do tipo number, representando o preço do produto.
-    disponivel: do tipo boolean, representando se o produto está disponível em estoque ou não.
+*/
+function calculadoraSimples(x, y, i) {
+    let caso;
+    let val;
+    i = i.toUpperCase(); // Assign the result of toUpperCase() back to i
+    if (i === 'SOMA')
+        caso = 1;
+    if (i === 'SUBTRACAO')
+        caso = 2;
+    if (i === 'MULTIPLICACAO')
+        caso = 3;
+    if (i === 'DIVISAO')
+        caso = 4;
+    switch (caso) {
+        case 1:
+            return x + y;
+        case 2:
+            return x - y;
+        case 3:
+            return x * y;
+        case 4:
+            return x / y;
+    }
+}
+console.log(calculadoraSimples(1, 2, 'soma'));
+/*
+Exercício 2: Verificador de Palíndromo
+Crie uma função chamada verificarPalindromo que recebe uma string como parâmetro e retorna verdadeiro se a string for um palíndromo
+(ou seja, se ela é lida da mesma forma da esquerda para a direita e da direita para a esquerda) e falso caso contrário.
 
+Resultado esperado:
+console.log(verificarPalindromo("arara")); // Saída esperada: true
+console.log(verificarPalindromo("reviver")); // Saída esperada: true
+console.log(verificarPalindromo("banana")); // Saída esperada: false
+console.log(verificarPalindromo("reconhecer")); // Saída esperada: true
 
-02 - Crie um objeto produto com as seguintes propriedades:
+Dica:
+let frase: string = "Ana"
+const fraseInverso = frase.split('').reverse().join('');
 
-    nome: string, representando o nome do produto.
-    preco: number, representando o preço do produto.
-    estoque: number, representando a quantidade em estoque do produto.
-    categorias: array de strings, representando as categorias às quais o produto pertence.
-    Em seguida, imprima todas as variáveis e propriedades do objeto produto usando console.log.
-
-*/ 
+*/
+function palindromo(palavra) {
+    let word = palavra;
+    const fraseInverso = palavra.split('').reverse().join('');
+    if (fraseInverso == word)
+        return true;
+    else
+        return false;
+}
+console.log(palindromo('reconhecer'));

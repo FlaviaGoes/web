@@ -128,7 +128,7 @@ function calculadoraSimples(x: number, y: number, i: string) {
     }
 }
 
-console.log(calculadoraSimples(1, 2, 'divisao'));
+console.log(calculadoraSimples(1, 2, 'soma'));
 
 /*
 Exercício 2: Verificador de Palíndromo
@@ -146,3 +146,16 @@ let frase: string = "Ana"
 const fraseInverso = frase.split('').reverse().join('');
 
 */
+
+function palindromo(palavra:string) : boolean {
+    let word = palavra
+    const fraseInverso = palavra.split('').reverse().join('')
+    
+    if(fraseInverso == word)
+        return true;
+    else 
+        return false;
+    
+}
+
+console.log(palindromo('reconhecer'))
