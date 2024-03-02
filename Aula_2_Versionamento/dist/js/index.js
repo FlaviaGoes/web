@@ -48,24 +48,22 @@ user = {
         telefone: '(15)982813267'
     }
 };
-let contato1;
-contato1 = {
-    email: "flava04goes@outlook.com",
-    telefone: '(15)982813267',
-};
 console.log(user);
 /*
-
-Exercício:
-Vamos criar um sistema de gestão de produtos para uma loja online.
-Precisamos armazenar informações sobre diferentes produtos disponíveis na loja. Vamos criar variáveis e objetos para representar esses produtos.
+    Exercício:
+    Vamos criar um sistema de gestão de produtos para uma loja online.
+    Precisamos armazenar informações sobre diferentes produtos disponíveis na loja. Vamos criar variáveis e objetos para representar esses produtos.
 
 01 - Crie as seguintes variáveis primitivas:
 
     nomeProduto: do tipo string, representando o nome de um produto.
     preco: do tipo number, representando o preço do produto.
     disponivel: do tipo boolean, representando se o produto está disponível em estoque ou não.
-
+*/
+let nome;
+let price;
+let available;
+/*
 
 02 - Crie um objeto produto com as seguintes propriedades:
 
@@ -75,4 +73,12 @@ Precisamos armazenar informações sobre diferentes produtos disponíveis na loj
     categorias: array de strings, representando as categorias às quais o produto pertence.
     Em seguida, imprima todas as variáveis e propriedades do objeto produto usando console.log.
 
-*/ 
+*/
+let produto;
+produto = {
+    name: 'Mouse',
+    preco: 50,
+    estoque: 50,
+    categorias: 'office',
+};
+console.log(produto);
