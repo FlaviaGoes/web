@@ -3,10 +3,10 @@ import {Ave} from "./ave";
 import {Mamifero} from "./mamifero"
 
 function newAnimals(animal: Animal) {
-    return animal;
+    animal.alimentar();
 }
 
-let Ornitorrinco = new Ave();
+let Pato = new Ave();
 let Lobo = new Mamifero();
 
 newAnimals(Lobo);
