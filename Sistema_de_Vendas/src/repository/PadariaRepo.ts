@@ -11,14 +11,16 @@ export class GerenciaModalidades {
         return this.ListaModal;
     }
 
-    filtraModalID(id:number):ModalidadePaes | undefined{
+    filtraModalID(id:number): ModalidadePaes | undefined{
         return this.ListaModal.find(ModalidadePaes => ModalidadePaes.id === id);
     }
 
     modificaModal(modalidade: ModalidadePaes) : ModalidadePaes {
-        this.ListaModal[modalidade.id].nome = modalidade.nome;
-        this.ListaModal[modalidade.id].vegano = modalidade.vegano;
-        return this.ListaModal[modalidade.id];
+        const index = this.ListaModal.indexOf(modalidade);
+        if(index !== -1){
+            this.ListaModal[index] = modalidade;
+        }
+        return this.ListaModal[index];
     }
 
     excluirModal(modalidade:ModalidadePaes) {
