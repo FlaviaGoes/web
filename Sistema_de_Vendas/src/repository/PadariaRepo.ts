@@ -11,7 +11,7 @@ export class GerenciaModalidades {
         return this.ListaModal;
     }
 
-    filtraModalID(id:number): ModalidadePaes | undefined{
+    filtraModalID(id:any): ModalidadePaes | undefined{
         return this.ListaModal.find(ModalidadePaes => ModalidadePaes.id === id);
     }
 
@@ -28,5 +28,6 @@ export class GerenciaModalidades {
         if(index !== -1){
             this.ListaModal.splice(index, 1);
         }
+        return index;
     }
 }

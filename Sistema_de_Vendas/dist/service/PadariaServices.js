@@ -22,5 +22,8 @@ class ServicePadoca {
         this.ModalidadePadoca.insereModal(novaModalidade);
         return novaModalidade;
     }
+    mostrarModalidades() {
+        return this.ModalidadePadoca.filtraModalidades();
+    }
 }
 exports.ServicePadoca = ServicePadoca;

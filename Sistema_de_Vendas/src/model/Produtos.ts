@@ -4,9 +4,9 @@ export class ModalidadePaes {
     vegano:boolean;
 
     constructor(nome:string, vegano:boolean){
+        this.id = this.gerarId();
         this.nome = nome;
         this.vegano = vegano;
-        this.id = this.gerarId();
     }
 
     private gerarId():number{

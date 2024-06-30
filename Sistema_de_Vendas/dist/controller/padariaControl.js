@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cadastrarModal = void 0;
+exports.listaModalidades = exports.cadastrarModal = void 0;
 const PadariaServices_1 = require("../service/PadariaServices");
 const ModalidadeService = new PadariaServices_1.ServicePadoca();
 function cadastrarModal(req, res) {
@@ -16,4 +16,13 @@ function cadastrarModal(req, res) {
     }
 }
 exports.cadastrarModal = cadastrarModal;
+;
+function listaModalidades(req, res) {
+    const Modalidades = ModalidadeService.ModalidadePadoca.filtraModalidades();
+    res.status(200).json({
+        mensagem: "Modalidades disponíveis",
+        Modalidade: Modalidades
+    });
+}
+exports.listaModalidades = listaModalidades;
 ;
