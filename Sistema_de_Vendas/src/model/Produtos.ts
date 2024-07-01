@@ -21,10 +21,10 @@ export class EstoquePaes {
     precoVenda:number;
 
     constructor(modalidadeID:number, quantidade:number, precoVenda:number){
+        this.id = this.gerarId();
         this.modalidadeID = modalidadeID;
         this.quantidade = quantidade;
         this.precoVenda = precoVenda;
-        this.id = this.gerarId();
     }
 
     private gerarId():number{
@@ -36,6 +36,7 @@ export class EstoquePaes {
 type ItemVenda = {
     estoquePaesID : number;
     quantidade : number;
+    nome: string | undefined;
 }
 
 export class VendaPaes {
@@ -46,12 +47,13 @@ export class VendaPaes {
 
     constructor(cpfClient:string, valorTotal:number, itensComprados: ItemVenda[]){
         this.cpfClient = cpfClient;
+        this.id = this.gerarId();
         this.valorTotal = valorTotal;
         this.itensComprados = itensComprados;
-        this.id = this.gerarId();
     }
 
     private gerarId():number{
         return Date.now();
     }
+
 }

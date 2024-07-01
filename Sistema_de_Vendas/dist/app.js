@@ -14,4 +14,14 @@ function Inform() {
 }
 app.post("/api/modalidade", padariaControl_1.cadastrarModal);
 app.get("/api/modalidade/todas", padariaControl_1.listaModalidades);
+app.get("/api/modalidade", padariaControl_1.pesquisaModalidade);
+app.put("/api/modalidade", padariaControl_1.mudarModalidade);
+app.delete("/api/modalidade", padariaControl_1.excluirModalidade);
+app.post("/api/estoque", padariaControl_1.cadastroEstoque);
+app.get("/api/estoque/todos", padariaControl_1.listaEstoque);
+app.get("/api/estoque", padariaControl_1.buscaEstoque);
+app.put("/api/estoque", padariaControl_1.Adicionarestoque);
+app.delete("/api/estoque", padariaControl_1.removerEstoque);
+app.post("/api/venda", padariaControl_1.registrarVenda);
+app.get("/api/venda", padariaControl_1.buscaVenda);
 app.listen(PORT, Inform);
