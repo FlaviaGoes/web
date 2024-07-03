@@ -160,7 +160,7 @@ export class ServiceEstoque {
                     return this.novoEstoque.removerEstoque(existe, quantidade, precoVenda);
                 }
             } else {
-                throw new Error("Estoque não encontrado.");
+                throw new Error("Estoque/Modalidade não encontrado.");
             }
         }
     }
@@ -202,9 +202,9 @@ export class ServiceVenda {
                 Venda.itensComprados[i].nome = Modalidade?.nome;
                 Venda.valorTotal += item.quantidade * Estoque.precoVenda;
                 
-                Estoque.quantidade = parseInt(item.quantidade, 10);
-
-                this.ServiceEstoque.removerEstoque(Estoque)
+                if(Estoque.quantidade >= item.quantidade){
+                    Estoque.quantidade -= item.quantidade;
+                }
             }
         }
 
