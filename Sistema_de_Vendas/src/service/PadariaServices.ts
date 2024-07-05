@@ -81,24 +81,19 @@ export class ServiceEstoque {
         const {modalidadeID, quantidade, precoVenda} = estoqueData;
         const idNumber: number = parseInt(modalidadeID, 10);
 
-        const existeEstoque = this.novoEstoque.listaEstoque.find((EstoquePaes) => EstoquePaes.modalidadeID === idNumber);
-
         const existeModalidade = this.ServicePadoca.ModalidadePadoca.filtraModalID(idNumber);
 
         if(!modalidadeID || !quantidade || !precoVenda){
             throw new Error("Informações incompletas");
         } else {
-            if(existeEstoque){
-                throw new Error("Estoque já cadastrado");
+            if(existeModalidade){
+                const newEstoque = new EstoquePaes(idNumber, quantidade, precoVenda);
+                this.novoEstoque.insereEstoque(newEstoque);
+                return newEstoque;
             } else {
-                if(existeModalidade){
-                    const newEstoque = new EstoquePaes(idNumber, quantidade, precoVenda);
-                    this.novoEstoque.insereEstoque(newEstoque);
-                    return newEstoque;
-                } else {
                     throw new Error("Essa modalidade não existe");
-                }
             }
+            
         }
     }
 
@@ -180,7 +175,7 @@ export class ServiceVenda {
         const {cpf, itens} = dataVenda;
 
         if(!cpf || !itens){
-            throw new Error("Informações incorretas");
+            throw new Error("Informações incompletas.");
         } 
 
         const Venda = new VendaPaes(cpf, 0, itens)
@@ -202,9 +197,7 @@ export class ServiceVenda {
                 Venda.itensComprados[i].nome = Modalidade?.nome;
                 Venda.valorTotal += item.quantidade * Estoque.precoVenda;
                 
-                if(Estoque.quantidade >= item.quantidade){
-                    Estoque.quantidade -= item.quantidade;
-                }
+                Estoque.quantidade -= item.quantidade;
             }
         }
 

@@ -82,24 +82,18 @@ class ServiceEstoque {
     cadastrarEstoque(estoqueData) {
         const { modalidadeID, quantidade, precoVenda } = estoqueData;
         const idNumber = parseInt(modalidadeID, 10);
-        const existeEstoque = this.novoEstoque.listaEstoque.find((EstoquePaes) => EstoquePaes.modalidadeID === idNumber);
         const existeModalidade = this.ServicePadoca.ModalidadePadoca.filtraModalID(idNumber);
         if (!modalidadeID || !quantidade || !precoVenda) {
             throw new Error("Informações incompletas");
         }
         else {
-            if (existeEstoque) {
-                throw new Error("Estoque já cadastrado");
+            if (existeModalidade) {
+                const newEstoque = new Produtos_1.EstoquePaes(idNumber, quantidade, precoVenda);
+                this.novoEstoque.insereEstoque(newEstoque);
+                return newEstoque;
             }
             else {
-                if (existeModalidade) {
-                    const newEstoque = new Produtos_1.EstoquePaes(idNumber, quantidade, precoVenda);
-                    this.novoEstoque.insereEstoque(newEstoque);
-                    return newEstoque;
-                }
-                else {
-                    throw new Error("Essa modalidade não existe");
-                }
+                throw new Error("Essa modalidade não existe");
             }
         }
     }
@@ -172,7 +166,7 @@ class ServiceVenda {
     registroVenda(dataVenda) {
         const { cpf, itens } = dataVenda;
         if (!cpf || !itens) {
-            throw new Error("Informações incorretas");
+            throw new Error("Informações incompletas.");
         }
         const Venda = new Produtos_1.VendaPaes(cpf, 0, itens);
         for (let i = 0; i < itens.length; i++) {
@@ -189,9 +183,7 @@ class ServiceVenda {
             else {
                 Venda.itensComprados[i].nome = Modalidade === null || Modalidade === void 0 ? void 0 : Modalidade.nome;
                 Venda.valorTotal += item.quantidade * Estoque.precoVenda;
-                if (Estoque.quantidade >= item.quantidade) {
-                    Estoque.quantidade -= item.quantidade;
-                }
+                Estoque.quantidade -= item.quantidade;
             }
         }
         this.novaVenda.registrarVenda(Venda);
