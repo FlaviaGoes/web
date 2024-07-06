@@ -11,7 +11,7 @@ export class ServicePadoca {
             throw new Error("Informações incompletas");
         } else {
             if(existe){
-                throw new Error("Produto já cadastrado");
+                throw new Error("Modalidade já cadastrado");
             }
         }
 

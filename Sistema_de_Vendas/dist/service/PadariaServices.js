@@ -15,7 +15,7 @@ class ServicePadoca {
         }
         else {
             if (existe) {
-                throw new Error("Produto já cadastrado");
+                throw new Error("Modalidade já cadastrado");
             }
         }
         const novaModalidade = new Produtos_1.ModalidadePaes(nome, vegano);
