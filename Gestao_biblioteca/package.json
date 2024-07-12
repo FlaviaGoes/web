@@ -1,16 +1,20 @@
 {
-  "name": "gestao_biblioteca",
+  "name": "aula_16",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.17.1",
+    "mysql2": "^3.9.7",
+    "typescript": "^5.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21"
