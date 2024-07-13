@@ -21,12 +21,12 @@ export class bookRepository{
         }
     };
 
-    async insertProduct(title: string, author: string) :Promise<Book>{
+    async insertBook(title: string, author: string) :Promise<Book>{
         const query = "INSERT INTO Books.library (title, author) VALUES (?, ?)" ;
 
         try {
             const resultado = await executarComandoSQL(query, [title, author]);
-            console.log('Produto inserido com sucesso, ID: ', resultado.insertId);
+            console.log('Livro inserido com sucesso, ID: ', resultado.insertId);
             const book = new Book(resultado.insertId, title, author);
             return new Promise<Book>((resolve)=>{
                 resolve(book);
