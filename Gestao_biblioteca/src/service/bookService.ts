@@ -1,7 +1,7 @@
 import { Book } from "../model/book";
 import { bookRepository } from "../repository/bookRepository";
 
-export class bookService{
+export class ServiceBook{
     bookRepository : bookRepository = new bookRepository();
 
     async bookInsert (bookData: any): Promise<Book> {
