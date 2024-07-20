@@ -42,7 +42,7 @@ class bookRepository {
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author, isbn]);
                 console.log('Livro inserido com sucesso, ID: ', resultado.insertId);
-                const book = new book_1.Book(resultado.insertId, title, author);
+                const book = new book_1.Book(resultado.insertId, title, author, isbn);
                 return new Promise((resolve) => {
                     resolve(book);
                 });
