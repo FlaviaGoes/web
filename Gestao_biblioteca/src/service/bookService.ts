@@ -12,8 +12,8 @@ export class ServiceBook{
 
         const Isbn = this.bookRepository.searchIsbn;
         if(isbn == Isbn)
-            throw new Error("Isban já inserido");
-        
+            throw new Error("Isbn já inserido");
+
         const book = await this.bookRepository.insertBook(title, author, isbn);
         console.log("Insert succeded", book);
         return book;
