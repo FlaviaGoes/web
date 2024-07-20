@@ -24,7 +24,7 @@ export class bookRepository{
     };
 
     async insertBook(title: string, author: string, isbn: string) :Promise<Book>{
-        const query = "INSERT INTO Biblioteca.livros (title, author, isbn) VALUES (?, ?, ?)" ;
+        const query =`INSERT INTO Biblioteca.livros (title, author, isbn) VALUES (?, ?, ?) ;` 
 
         try {
             const resultado = await executarComandoSQL(query, [title, author, isbn]);
@@ -39,18 +39,69 @@ export class bookRepository{
         }
     }
 
-    async searchIsbn(isbn: string) :Promise<Book>{
-        const query = "SELECT * FROM Biblioteca.livros where isbn = ?";
+    async search(id_Isbn: string | number): Promise<boolean> {
+        let query: string;
+        if(typeof id_Isbn === "string"){
+            query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
+        } else {
+            query = "SELECT * FROM Biblioteca.livros WHERE id = ?" ;
+        }
+    
+        try {
+            const result = await executarComandoSQL(query, [id_Isbn]);
+            if (result.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err: any) {
+            console.error(`Falha ao procurar o ISBN/ID ${id_Isbn}, gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
+    async filterbook():Promise<Book[]>{
+        const query = "SELECT * FROM Biblioteca.livros";
 
         try{
-            const result = await executarComandoSQL(query, [isbn]);
+            const result = await executarComandoSQL(query, []);
+            return new Promise<Book[]>((resolve)=>{
+                resolve(result);
+            })
+        } catch (err:any){
+            console.error(`Falha ao buscar livros: ${err}`);
+            throw err;
+        }
+    }
+
+    async filterId (id: number) : Promise<Book> {
+        const query = "SELECT * FROM Biblioteca.livros where id = ?";
+
+        try {
+            const result = await executarComandoSQL(query, [id]);
+            console.log('Livro localizado com sucesso, ID: ', result);
             return new Promise<Book>((resolve)=>{
                 resolve(result);
             })
-        }
-        catch (err:any){
-            console.error(`Falha ao procurar o ISBN ${isbn} gerando o erro: ${err}`);
+        } catch (err:any){
+            console.error(`Falha ao procurar o livro com o ID: ${id}`);
             throw err;
         }
+    }
+
+    async deleteBook(id: number, title: string, author: string, isbn: string):Promise<Book>{
+        const query = `DELETE FROM Biblioteca.livros where id = ?`
+
+            try{
+                    const result = await executarComandoSQL(query, [id]);
+                    console.log('Livro deletado com sucesso, ID: ', result);
+                    const book = new Book(id, title, author, isbn);
+                    return new Promise<Book>((resolve)=>{
+                        resolve(book);
+                    })
+            } catch (err:any) {
+                console.error(`Erro ao deletar o livro de ID ${id}`);
+                throw err;
+            }
     }
 }

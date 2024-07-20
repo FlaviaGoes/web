@@ -10,6 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsertBook = InsertBook;
+exports.allBooks = allBooks;
+exports.bookById = bookById;
+exports.deletaBook = deletaBook;
 const bookService_1 = require("../service/bookService");
 const bookService = new bookService_1.ServiceBook();
 function InsertBook(req, res) {
@@ -18,6 +21,50 @@ function InsertBook(req, res) {
             const book = yield bookService.bookInsert(req.body);
             res.status(201).json({
                 mensagem: "Livro adicionado com sucesso!",
+                Livro: book
+            });
+        }
+        catch (error) {
+            res.status(409).json({
+                message: "Isbn duplicado!",
+            });
+        }
+    });
+}
+function allBooks(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const books = yield bookService.imprimirBooks();
+            res.status(200).json({
+                mensagem: "Livros listados com sucesso!",
+                Livros: books
+            });
+        }
+        catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    });
+}
+function bookById(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const book = yield bookService.IdBook(req.query.id);
+            res.status(200).json({
+                mensagem: "Livro encontrado!",
+                Livro: book
+            });
+        }
+        catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    });
+}
+function deletaBook(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const book = yield bookService.removeLivro(req.body);
+            res.status(200).json({
+                mensagem: "Livro deletado!",
                 Livro: book
             });
         }

@@ -21,11 +21,49 @@ class ServiceBook {
             if (!title || !author || !isbn) {
                 throw new Error("Missing information");
             }
-            const Isbn = this.bookRepository.searchIsbn;
-            if (isbn == Isbn)
-                throw new Error("Isbn já inserido");
+            const isbnBook = isbn.toString();
+            const exists = yield this.bookRepository.search(isbnBook);
+            if (exists === true)
+                throw new Error("O livro já existe!");
             const book = yield this.bookRepository.insertBook(title, author, isbn);
             console.log("Insert succeded", book);
+            return book;
+        });
+    }
+    imprimirBooks() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const book = yield this.bookRepository.filterbook();
+            console.log("Todos os livros:", book);
+            return book;
+        });
+    }
+    IdBook(bookData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!bookData) {
+                throw new Error("Deve inserir ID do livro!");
+            }
+            const id = parseInt(bookData, 10);
+            const book = yield this.bookRepository.filterId(id);
+            console.log("Livro encontrado!", book);
+            return book;
+        });
+    }
+    removeLivro(bookData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, title, author, isbn } = bookData;
+            if (!id || !title || !author || !isbn) {
+                throw new Error("Informações incompletas");
+            }
+            const idNumber = parseInt(id, 10);
+            const titulo = title.toString();
+            const autor = author.toString();
+            const codigo = isbn.toString();
+            const exists = yield this.bookRepository.search(idNumber);
+            if (exists === false) {
+                throw new Error("Livro não existe!");
+            }
+            const book = yield this.bookRepository.deleteBook(idNumber, titulo, autor, codigo);
+            console.log("Livro removido: ", book);
             return book;
         });
     }
