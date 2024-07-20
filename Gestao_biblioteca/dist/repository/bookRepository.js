@@ -15,14 +15,16 @@ const book_1 = require("../model/book");
 class bookRepository {
     constructor() {
         this.createTable();
+        console.log();
     }
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS Books.library(
+        CREATE TABLE IF NOT EXISTS Biblioteca.livros(
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
-            author VARCHAR(255) NOT NULL
+            author VARCHAR(255) NOT NULL,
+            isbn VARCHAR(255) NOT NULL
         )`;
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
@@ -34,11 +36,11 @@ class bookRepository {
         });
     }
     ;
-    insertBook(title, author) {
+    insertBook(title, author, isbn) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO Books.library (title, author) VALUES (?, ?)";
+            const query = "INSERT INTO Biblioteca.livros (title, author, isbn) VALUES (?, ?, ?)";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author]);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author, isbn]);
                 console.log('Livro inserido com sucesso, ID: ', resultado.insertId);
                 const book = new book_1.Book(resultado.insertId, title, author);
                 return new Promise((resolve) => {
@@ -47,6 +49,21 @@ class bookRepository {
             }
             catch (err) {
                 console.error('Erro ao inserir o livro:', err);
+                throw err;
+            }
+        });
+    }
+    searchIsbn(isbn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = "SELECT * FROM Biblioteca.livros where isbn = ?";
+            try {
+                const result = yield (0, mysql_1.executarComandoSQL)(query, [isbn]);
+                return new Promise((resolve) => {
+                    resolve(result);
+                });
+            }
+            catch (err) {
+                console.error(`Falha ao procurar o ISBN ${isbn} gerando o erro: ${err}`);
                 throw err;
             }
         });

@@ -6,4 +6,6 @@ const PORT = 3000;
 
 app.use(express.json());
 
-app.post("/api/book", InsertBook)
+app.post("/api/books", InsertBook)
+
+app.listen(PORT, ()=> console.log("API online na porta: " + PORT));

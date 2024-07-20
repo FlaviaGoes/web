@@ -8,4 +8,5 @@ const bookController_1 = require("./controller/bookController");
 const app = (0, express_1.default)();
 const PORT = 3000;
 app.use(express_1.default.json());
-app.post("/api/book", bookController_1.InsertBook);
+app.post("/api/books", bookController_1.InsertBook);
+app.listen(PORT, () => console.log("API online na porta: " + PORT));
