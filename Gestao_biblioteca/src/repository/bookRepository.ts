@@ -39,26 +39,38 @@ export class bookRepository{
         }
     }
 
-    async search(id_Isbn: string | number): Promise<boolean> {
-        let query: string;
-        if(typeof id_Isbn === "string"){
-            query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
-        } else {
-            query = "SELECT * FROM Biblioteca.livros WHERE id = ?" ;
-        }
-    
+    async search(id_Isbn: string | number, query: string):Promise<number> {
         try {
             const result = await executarComandoSQL(query, [id_Isbn]);
-            if (result.length > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return new Promise<number>((resolve)=>{
+                resolve(result.length);
+            })
         } catch (err: any) {
             console.error(`Falha ao procurar o ISBN/ID ${id_Isbn}, gerando o erro: ${err}`);
             throw err;
         }
     }
+
+    // async search(id_Isbn: string | number) {
+    //     let query: string;
+    //     if(typeof id_Isbn === "string"){
+    //         query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
+    //     } else {
+    //         query = "SELECT * FROM Biblioteca.livros WHERE id = ?" ;
+    //     }
+    
+    //     try {
+    //         const result = await executarComandoSQL(query, [id_Isbn]);
+    //         if (result.length > 0) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     } catch (err: any) {
+    //         console.error(`Falha ao procurar o ISBN/ID ${id_Isbn}, gerando o erro: ${err}`);
+    //         throw err;
+    //     }
+    // }
 
     async filterbook():Promise<Book[]>{
         const query = "SELECT * FROM Biblioteca.livros";
@@ -85,6 +97,22 @@ export class bookRepository{
             })
         } catch (err:any){
             console.error(`Falha ao procurar o livro com o ID: ${id}`);
+            throw err;
+        }
+    }
+
+    async updateBook(id: number, title: string, author: string, isbn: string) :Promise<Book>{
+        const query = "UPDATE Biblioteca.livros set title = ?, author = ?, isbn = ? where id = ?;" ;
+
+        try {
+            const result = await executarComandoSQL(query, [title, author, isbn, id]);
+            console.log('Livro atualizado com sucesso, ID: ', result);
+            const livro = new Book(id, title, author, isbn);
+            return new Promise<Book>((resolve)=>{
+                resolve(livro);
+            })
+        } catch (err:any) {
+            console.error(`Erro ao atualizar o produto de ID ${id} gerando o erro: ${err}`);
             throw err;
         }
     }

@@ -11,5 +11,6 @@ app.use(express_1.default.json());
 app.post("/books", bookController_1.InsertBook);
 app.get("/books", bookController_1.allBooks);
 app.get("/books/:id", bookController_1.bookById);
+app.put("/books/:id", bookController_1.atulizaLivro);
 app.delete("/books/:id", bookController_1.deletaBook);
 app.listen(PORT, () => console.log("API online na porta: " + PORT));

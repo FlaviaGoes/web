@@ -22,7 +22,7 @@ class ServiceBook {
                 throw new Error("Missing information");
             }
             const isbnBook = isbn.toString();
-            const exists = yield this.bookRepository.search(isbnBook);
+            const exists = yield this.searchLivro(isbnBook);
             if (exists === true)
                 throw new Error("O livro já existe!");
             const book = yield this.bookRepository.insertBook(title, author, isbn);
@@ -37,14 +37,54 @@ class ServiceBook {
             return book;
         });
     }
+    searchLivro(id_Isbn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query;
+            if (typeof id_Isbn === "string") {
+                query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
+            }
+            else {
+                query = "SELECT * FROM Biblioteca.livros WHERE id = ?";
+            }
+            const result = yield this.bookRepository.search(id_Isbn, query);
+            if (result > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    }
     IdBook(bookData) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!bookData) {
                 throw new Error("Deve inserir ID do livro!");
             }
             const id = parseInt(bookData, 10);
+            const exists = yield this.searchLivro(id);
+            if (exists === false)
+                throw new Error("ID não encontrado!");
             const book = yield this.bookRepository.filterId(id);
             console.log("Livro encontrado!", book);
+            return book;
+        });
+    }
+    atualizaBook(bookData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, title, author, isbn } = bookData;
+            if (!id || !title || !author || !isbn) {
+                throw new Error("Informações incompletas");
+            }
+            const idNumber = parseInt(id, 10);
+            const titulo = title.toString();
+            const autor = author.toString();
+            const codigo = isbn.toString();
+            const exists = yield this.searchLivro(idNumber);
+            if (exists === false) {
+                throw new Error("Livro não existe!");
+            }
+            const book = yield this.bookRepository.updateBook(idNumber, titulo, autor, codigo);
+            console.log("Livro atualizado: ", book);
             return book;
         });
     }
@@ -58,7 +98,7 @@ class ServiceBook {
             const titulo = title.toString();
             const autor = author.toString();
             const codigo = isbn.toString();
-            const exists = yield this.bookRepository.search(idNumber);
+            const exists = yield this.searchLivro(idNumber);
             if (exists === false) {
                 throw new Error("Livro não existe!");
             }

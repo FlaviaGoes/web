@@ -42,7 +42,21 @@ export async function bookById(req: Request, res: Response) {
             Livro: book
         })
     } catch (error: any){
-        res.status(400).json({message:error.message});
+        res.status(404).json({message:error.message});
+    }
+}
+
+export async function atulizaLivro(req: Request, res: Response) {
+    try{
+        const book = await bookService.atualizaBook(req.body);
+        res.status(200).json(
+            {
+                mensagem:"Livro atualizado com sucesso!",
+                Livro: book
+            }
+        );
+    } catch (error: any){
+        res.status(404).json({message:"Livro não encontrado!"});
     }
 }
 
@@ -54,7 +68,7 @@ export async function deletaBook(req: Request, res: Response) {
             Livro: book
         }) 
     } catch (error: any){
-        res.status(400).json({message:error.message});
+        res.status(404).json({message:error.message});
     }
 }
 

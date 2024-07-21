@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsertBook = InsertBook;
 exports.allBooks = allBooks;
 exports.bookById = bookById;
+exports.atulizaLivro = atulizaLivro;
 exports.deletaBook = deletaBook;
 const bookService_1 = require("../service/bookService");
 const bookService = new bookService_1.ServiceBook();
@@ -55,7 +56,21 @@ function bookById(req, res) {
             });
         }
         catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(404).json({ message: error.message });
+        }
+    });
+}
+function atulizaLivro(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const book = yield bookService.atualizaBook(req.body);
+            res.status(200).json({
+                mensagem: "Livro atualizado com sucesso!",
+                Livro: book
+            });
+        }
+        catch (error) {
+            res.status(404).json({ message: "Livro não encontrado!" });
         }
     });
 }
@@ -69,7 +84,7 @@ function deletaBook(req, res) {
             });
         }
         catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(404).json({ message: error.message });
         }
     });
 }

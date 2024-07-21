@@ -53,23 +53,13 @@ class bookRepository {
             }
         });
     }
-    search(id_Isbn) {
+    search(id_Isbn, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            let query;
-            if (typeof id_Isbn === "string") {
-                query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
-            }
-            else {
-                query = "SELECT * FROM Biblioteca.livros WHERE id = ?";
-            }
             try {
                 const result = yield (0, mysql_1.executarComandoSQL)(query, [id_Isbn]);
-                if (result.length > 0) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return new Promise((resolve) => {
+                    resolve(result.length);
+                });
             }
             catch (err) {
                 console.error(`Falha ao procurar o ISBN/ID ${id_Isbn}, gerando o erro: ${err}`);
@@ -77,6 +67,25 @@ class bookRepository {
             }
         });
     }
+    // async search(id_Isbn: string | number) {
+    //     let query: string;
+    //     if(typeof id_Isbn === "string"){
+    //         query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
+    //     } else {
+    //         query = "SELECT * FROM Biblioteca.livros WHERE id = ?" ;
+    //     }
+    //     try {
+    //         const result = await executarComandoSQL(query, [id_Isbn]);
+    //         if (result.length > 0) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     } catch (err: any) {
+    //         console.error(`Falha ao procurar o ISBN/ID ${id_Isbn}, gerando o erro: ${err}`);
+    //         throw err;
+    //     }
+    // }
     filterbook() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "SELECT * FROM Biblioteca.livros";
@@ -104,6 +113,23 @@ class bookRepository {
             }
             catch (err) {
                 console.error(`Falha ao procurar o livro com o ID: ${id}`);
+                throw err;
+            }
+        });
+    }
+    updateBook(id, title, author, isbn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = "UPDATE Biblioteca.livros set title = ?, author = ?, isbn = ? where id = ?;";
+            try {
+                const result = yield (0, mysql_1.executarComandoSQL)(query, [title, author, isbn, id]);
+                console.log('Livro atualizado com sucesso, ID: ', result);
+                const livro = new book_1.Book(id, title, author, isbn);
+                return new Promise((resolve) => {
+                    resolve(livro);
+                });
+            }
+            catch (err) {
+                console.error(`Erro ao atualizar o produto de ID ${id} gerando o erro: ${err}`);
                 throw err;
             }
         });
