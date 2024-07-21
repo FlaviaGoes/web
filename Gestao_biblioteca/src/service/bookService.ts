@@ -5,19 +5,25 @@ export class ServiceBook{
     bookRepository : bookRepository = new bookRepository();
 
     async bookInsert (bookData: any): Promise<Book> {
-        const {title, author, isbn} = bookData;
-        
+        const {title, author, publishedDate, isbn, pages, language, publisher} = bookData;
+
         if(!title || !author || !isbn){
             throw new Error("Missing information");
         }
 
-        const isbnBook = isbn.toString();
+        const titulo = title.toString();
+        const autor = author.toString();
+        const date = publishedDate.toString();
+        const codigo = isbn.toString();
+        const pagesBook = parseInt(pages, 10);
+        const idioma = language.toString();
+        const auditora = publisher.toString();
 
-        const exists = await this.searchLivro(isbnBook);
+        const exists = await this.searchLivro(codigo);
         if(exists === true)
             throw new Error("O livro já existe!");
 
-        const book = await this.bookRepository.insertBook(title, author, isbn);
+        const book = await this.bookRepository.insertBook(titulo, autor, date, codigo, pagesBook, idioma, auditora);
         console.log("Insert succeded", book);
         return book;
     }
@@ -64,45 +70,54 @@ export class ServiceBook{
     }
 
     async atualizaBook(bookData: any): Promise<Book>{
-        const {id, title, author, isbn} = bookData;
+        const {id, title, author, publishedDate, isbn, pages, language, publisher} = bookData;
 
-        if(!id || !title || !author || !isbn){
+        if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher){
             throw new Error("Informações incompletas");
         }
 
         const idNumber = parseInt(id, 10);
         const titulo = title.toString();
         const autor = author.toString();
+        const date = publishedDate.toString();
         const codigo = isbn.toString();
+        const pagesBook = parseInt(pages, 10);
+        const idioma = language.toString();
+        const auditora = publisher.toString();
+
 
         const exists = await this.searchLivro(idNumber);
         if(exists === false) {
             throw new Error("Livro não existe!");
         }
             
-        const book = await this.bookRepository.updateBook(idNumber, titulo, autor, codigo);
+        const book = await this.bookRepository.updateBook(idNumber, titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Livro atualizado: ", book);
             return book;
     }
 
     async removeLivro(bookData: any): Promise<Book>{
-        const {id, title, author, isbn} = bookData;
+        const {id, title, author, publishedDate, isbn, pages, language, publisher} = bookData;
 
-        if(!id || !title || !author || !isbn){
+        if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher){
             throw new Error("Informações incompletas");
         }
 
         const idNumber = parseInt(id, 10);
         const titulo = title.toString();
         const autor = author.toString();
+        const date = publishedDate.toString();
         const codigo = isbn.toString();
+        const pagesBook = parseInt(pages, 10);
+        const idioma = language.toString();
+        const auditora = publisher.toString();
 
         const exists = await this.searchLivro(idNumber);
         if(exists === false) {
             throw new Error("Livro não existe!");
         }
             
-        const book = await this.bookRepository.deleteBook(idNumber, titulo, autor, codigo);
+        const book = await this.bookRepository.deleteBook(idNumber, titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Livro removido: ", book);
             return book;
     }

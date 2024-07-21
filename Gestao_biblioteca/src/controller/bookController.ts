@@ -13,10 +13,7 @@ export async function InsertBook(req: Request, res: Response) {
             }
         );
     } catch (error: any) {
-        res.status(409).json(
-            { 
-                message: "Isbn duplicado!",
-            });
+        res.status(409).json({message: error.message});
     }
 }
 

@@ -26,9 +26,7 @@ function InsertBook(req, res) {
             });
         }
         catch (error) {
-            res.status(409).json({
-                message: "Isbn duplicado!",
-            });
+            res.status(409).json({ message: error.message });
         }
     });
 }

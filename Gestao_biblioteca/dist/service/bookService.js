@@ -17,15 +17,21 @@ class ServiceBook {
     }
     bookInsert(bookData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { title, author, isbn } = bookData;
+            const { title, author, publishedDate, isbn, pages, language, publisher } = bookData;
             if (!title || !author || !isbn) {
                 throw new Error("Missing information");
             }
-            const isbnBook = isbn.toString();
-            const exists = yield this.searchLivro(isbnBook);
+            const titulo = title.toString();
+            const autor = author.toString();
+            const date = publishedDate.toString();
+            const codigo = isbn.toString();
+            const pagesBook = parseInt(pages, 10);
+            const idioma = language.toString();
+            const auditora = publisher.toString();
+            const exists = yield this.searchLivro(codigo);
             if (exists === true)
                 throw new Error("O livro já existe!");
-            const book = yield this.bookRepository.insertBook(title, author, isbn);
+            const book = yield this.bookRepository.insertBook(titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Insert succeded", book);
             return book;
         });
@@ -71,38 +77,46 @@ class ServiceBook {
     }
     atualizaBook(bookData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, title, author, isbn } = bookData;
-            if (!id || !title || !author || !isbn) {
+            const { id, title, author, publishedDate, isbn, pages, language, publisher } = bookData;
+            if (!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher) {
                 throw new Error("Informações incompletas");
             }
             const idNumber = parseInt(id, 10);
             const titulo = title.toString();
             const autor = author.toString();
+            const date = publishedDate.toString();
             const codigo = isbn.toString();
+            const pagesBook = parseInt(pages, 10);
+            const idioma = language.toString();
+            const auditora = publisher.toString();
             const exists = yield this.searchLivro(idNumber);
             if (exists === false) {
                 throw new Error("Livro não existe!");
             }
-            const book = yield this.bookRepository.updateBook(idNumber, titulo, autor, codigo);
+            const book = yield this.bookRepository.updateBook(idNumber, titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Livro atualizado: ", book);
             return book;
         });
     }
     removeLivro(bookData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, title, author, isbn } = bookData;
-            if (!id || !title || !author || !isbn) {
+            const { id, title, author, publishedDate, isbn, pages, language, publisher } = bookData;
+            if (!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher) {
                 throw new Error("Informações incompletas");
             }
             const idNumber = parseInt(id, 10);
             const titulo = title.toString();
             const autor = author.toString();
+            const date = publishedDate.toString();
             const codigo = isbn.toString();
+            const pagesBook = parseInt(pages, 10);
+            const idioma = language.toString();
+            const auditora = publisher.toString();
             const exists = yield this.searchLivro(idNumber);
             if (exists === false) {
                 throw new Error("Livro não existe!");
             }
-            const book = yield this.bookRepository.deleteBook(idNumber, titulo, autor, codigo);
+            const book = yield this.bookRepository.deleteBook(idNumber, titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Livro removido: ", book);
             return book;
         });

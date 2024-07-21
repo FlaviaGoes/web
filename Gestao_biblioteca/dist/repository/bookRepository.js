@@ -24,7 +24,11 @@ class bookRepository {
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             author VARCHAR(255) NOT NULL,
-            isbn VARCHAR(255) NOT NULL
+            publishedDate VARCHAR(255) NOT NULL,
+            isbn VARCHAR(255) NOT NULL,
+            pages INT(10) NOT NULL,
+            language VARCHAR(255) NOT NULL,
+            publisher VARCHAR(255) NOT NULL
         )`;
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
@@ -36,13 +40,13 @@ class bookRepository {
         });
     }
     ;
-    insertBook(title, author, isbn) {
+    insertBook(title, author, publishedDate, isbn, pages, language, publisher) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = `INSERT INTO Biblioteca.livros (title, author, isbn) VALUES (?, ?, ?) ;`;
+            const query = `INSERT INTO Biblioteca.livros (title, author, publishedDate, isbn, pages, language, publisher) VALUES (?, ?, ?, ?, ?, ?, ?)`;
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author, isbn]);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author, publishedDate, isbn, pages, language, publisher]);
                 console.log('Livro inserido com sucesso, ID: ', resultado.insertId);
-                const book = new book_1.Book(resultado.insertId, title, author, isbn);
+                const book = new book_1.Book(resultado.insertId, title, author, publishedDate, isbn, pages, language, publisher);
                 return new Promise((resolve) => {
                     resolve(book);
                 });
@@ -117,13 +121,13 @@ class bookRepository {
             }
         });
     }
-    updateBook(id, title, author, isbn) {
+    updateBook(id, title, author, publishedDate, isbn, pages, language, publisher) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "UPDATE Biblioteca.livros set title = ?, author = ?, isbn = ? where id = ?;";
+            const query = "UPDATE Biblioteca.livros set title = ?, author = ?, publishedDate = ?, isbn = ?, pages = ?, language = ?, publisher = ? where id = ?;";
             try {
-                const result = yield (0, mysql_1.executarComandoSQL)(query, [title, author, isbn, id]);
+                const result = yield (0, mysql_1.executarComandoSQL)(query, [title, author, publishedDate, isbn, pages, language, publisher, id]);
                 console.log('Livro atualizado com sucesso, ID: ', result);
-                const livro = new book_1.Book(id, title, author, isbn);
+                const livro = new book_1.Book(id, title, author, publishedDate, isbn, pages, language, publisher);
                 return new Promise((resolve) => {
                     resolve(livro);
                 });
@@ -134,13 +138,13 @@ class bookRepository {
             }
         });
     }
-    deleteBook(id, title, author, isbn) {
+    deleteBook(id, title, author, publishedDate, isbn, pages, language, publisher) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `DELETE FROM Biblioteca.livros where id = ?`;
             try {
                 const result = yield (0, mysql_1.executarComandoSQL)(query, [id]);
                 console.log('Livro deletado com sucesso, ID: ', result);
-                const book = new book_1.Book(id, title, author, isbn);
+                const book = new book_1.Book(id, title, author, publishedDate, isbn, pages, language, publisher);
                 return new Promise((resolve) => {
                     resolve(book);
                 });
