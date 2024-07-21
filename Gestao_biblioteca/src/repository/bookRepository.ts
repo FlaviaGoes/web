@@ -9,7 +9,7 @@ export class bookRepository{
 
     private async createTable(){
         const query = `
-        CREATE TABLE IF NOT EXISTS Biblioteca.livros(
+        CREATE TABLE IF NOT EXISTS Biblioteca.books(
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             author VARCHAR(255) NOT NULL,
@@ -28,7 +28,7 @@ export class bookRepository{
     };
 
     async insertBook(title: string, author: string, publishedDate:string, isbn: string, pages:number, language: string, publisher: string) :Promise<Book>{
-        const query =`INSERT INTO Biblioteca.livros (title, author, publishedDate, isbn, pages, language, publisher) VALUES (?, ?, ?, ?, ?, ?, ?)` 
+        const query =`INSERT INTO Biblioteca.books (title, author, publishedDate, isbn, pages, language, publisher) VALUES (?, ?, ?, ?, ?, ?, ?)` 
 
         try {
             const resultado = await executarComandoSQL(query, [title, author, publishedDate, isbn, pages, language, publisher]);
@@ -55,29 +55,21 @@ export class bookRepository{
         }
     }
 
-    // async search(id_Isbn: string | number) {
-    //     let query: string;
-    //     if(typeof id_Isbn === "string"){
-    //         query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
-    //     } else {
-    //         query = "SELECT * FROM Biblioteca.livros WHERE id = ?" ;
-    //     }
-    
-    //     try {
-    //         const result = await executarComandoSQL(query, [id_Isbn]);
-    //         if (result.length > 0) {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     } catch (err: any) {
-    //         console.error(`Falha ao procurar o ISBN/ID ${id_Isbn}, gerando o erro: ${err}`);
-    //         throw err;
-    //     }
-    // }
+    async searchUpdate(isbn: string, id: number):Promise<number> {
+        const query = "SELECT * FROM Biblioteca.books WHERE isbn = ? AND id != ?"
+        try {
+            const result = await executarComandoSQL(query, [isbn, id]);
+            return new Promise<number>((resolve)=>{
+                resolve(result.length);
+            })
+        } catch (err: any) {
+            console.error(`Falha ao procurar livro com isbn ${isbn}, gerando o erro: ${err}`);
+            throw err;
+        }
+    }
 
     async filterbook():Promise<Book[]>{
-        const query = "SELECT * FROM Biblioteca.livros";
+        const query = "SELECT * FROM Biblioteca.books";
 
         try{
             const result = await executarComandoSQL(query, []);
@@ -91,7 +83,7 @@ export class bookRepository{
     }
 
     async filterId (id: number) : Promise<Book> {
-        const query = "SELECT * FROM Biblioteca.livros where id = ?";
+        const query = "SELECT * FROM Biblioteca.books where id = ?";
 
         try {
             const result = await executarComandoSQL(query, [id]);
@@ -106,7 +98,7 @@ export class bookRepository{
     }
 
     async updateBook(id: number, title: string, author: string, publishedDate: string, isbn: string, pages: number, language: string, publisher: string) :Promise<Book>{
-        const query = "UPDATE Biblioteca.livros set title = ?, author = ?, publishedDate = ?, isbn = ?, pages = ?, language = ?, publisher = ? where id = ?;" ;
+        const query = "UPDATE Biblioteca.books set title = ?, author = ?, publishedDate = ?, isbn = ?, pages = ?, language = ?, publisher = ? where id = ?;" ;
 
         try {
             const result = await executarComandoSQL(query, [title, author, publishedDate, isbn, pages, language, publisher, id]);
@@ -122,7 +114,7 @@ export class bookRepository{
     }
 
     async deleteBook(id: number, title: string, author: string, publishedDate: string, isbn: string, pages: number, language: string, publisher: string):Promise<Book>{
-        const query = `DELETE FROM Biblioteca.livros where id = ?`
+        const query = `DELETE FROM Biblioteca.books where id = ?`
 
             try{
                     const result = await executarComandoSQL(query, [id]);

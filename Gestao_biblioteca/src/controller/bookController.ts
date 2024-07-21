@@ -53,7 +53,7 @@ export async function atulizaLivro(req: Request, res: Response) {
             }
         );
     } catch (error: any){
-        res.status(404).json({message:"Livro não encontrado!"});
+        res.status(404).json({message: error.message});
     }
 }
 

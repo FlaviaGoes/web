@@ -30,7 +30,7 @@ class ServiceBook {
             const auditora = publisher.toString();
             const exists = yield this.searchLivro(codigo);
             if (exists === true)
-                throw new Error("O livro já existe!");
+                throw new Error("Já existe um livro com o ISBN informado!");
             const book = yield this.bookRepository.insertBook(titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Insert succeded", book);
             return book;
@@ -47,10 +47,10 @@ class ServiceBook {
         return __awaiter(this, void 0, void 0, function* () {
             let query;
             if (typeof id_Isbn === "string") {
-                query = "SELECT * FROM Biblioteca.livros WHERE isbn = ?";
+                query = "SELECT * FROM Biblioteca.books WHERE isbn = ?";
             }
             else {
-                query = "SELECT * FROM Biblioteca.livros WHERE id = ?";
+                query = "SELECT * FROM Biblioteca.books WHERE id = ?";
             }
             const result = yield this.bookRepository.search(id_Isbn, query);
             if (result > 0) {
@@ -92,6 +92,10 @@ class ServiceBook {
             const exists = yield this.searchLivro(idNumber);
             if (exists === false) {
                 throw new Error("Livro não existe!");
+            }
+            const double = yield this.bookRepository.searchUpdate(codigo, idNumber);
+            if (double > 0) {
+                throw new Error("Isbn existente!");
             }
             const book = yield this.bookRepository.updateBook(idNumber, titulo, autor, date, codigo, pagesBook, idioma, auditora);
             console.log("Livro atualizado: ", book);
