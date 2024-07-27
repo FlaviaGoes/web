@@ -9,10 +9,10 @@ export class tipo_conta {
 
     private async createTableTipo() {
         const query = `
-        CREATE TABLE tipos_Conta (
+        CREATE TABLE tiposConta (
             id INT PRIMARY KEY,
             descricao VARCHAR (255),
-            codigo_tipo_conta INT(10) UNIQUE
+            codigoTipoConta INT(10) UNIQUE
         )`;
 
         try {
@@ -23,18 +23,81 @@ export class tipo_conta {
         }
     }
 
-    async insertContaTipo(descricao:string, codigo_tipo_conta:number):Promise<TipoConta>{
-        const query = `INSERT INTO banco.tipos_Conta(descricao, codigo_tipo_conta) VALUES (?, ?)`
+    async insertContaTipo(descricao:string):Promise<TipoConta>{
+        const query = `INSERT INTO banco.tiposConta(descricao, codigoTipoConta) VALUES (?, ?)`
 
         try{
-            const resultado = await executarComandoSQL(query, [descricao, codigo_tipo_conta]);
+            const tipoConta = new TipoConta(undefined, descricao, undefined);
+            const resultado = await executarComandoSQL(query, [tipoConta.descricao, tipoConta.codigoTipoConta]);
             console.log('Tipo Conta foi inserido com sucesso, ID:', resultado.insertId);
-            const conta_tipo = new TipoConta(resultado.insertId, descricao, codigo_tipo_conta)
+            tipoConta.id = resultado.insertId;
             return new Promise<TipoConta>((resolve)=>{
-                resolve(conta_tipo);
+                resolve(tipoConta);
             })
         } catch (err){
-            console.error('Erro ao inserir Tipo COnta', err);
+            console.error('Erro ao inserir Tipo Conta', err);
+            throw err;
+        }
+    }
+
+    async filterContaTipos():Promise<TipoConta[]>{
+        const query = 'SELECT * FROM banco.tiposConta';
+
+        try {
+            const resultado = await executarComandoSQL(query, []);
+            return new Promise<TipoConta[]>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any){
+            console.error(`Falha ao buscar Tipos Conta: ${err}`);
+            throw err;
+        }
+    }
+
+    async filterTipoConta(id: number): Promise<TipoConta>{
+        const query = "SELECT * FROM banco.tiposConta where id = ?";
+
+        try{
+            const resultado = await executarComandoSQL(query, [id]);
+            console.log('Tipo Conta localizado com sucesso!', resultado);
+            return new Promise<TipoConta>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any){
+            console.error(`Falha ao localizar Tipo Conta com ID: ${id}`);
+            throw err;
+            
+        }
+    }
+
+    async atualizaTipoConta(id:number, descricao:string, codigoTipoConta:number): Promise<TipoConta>{
+        const query = "UPDATE banco.tiposConta set descricao = ?, codigoTipoConta = ?";
+
+        try{
+            const resultado = await executarComandoSQL(query, [descricao, codigoTipoConta]);
+            console.log('Tipo Conta atualizada com sucesso!', resultado);
+            const tipoConta = new TipoConta(id, descricao, codigoTipoConta);
+            return new Promise<TipoConta>((resolve)=>{
+                resolve(tipoConta)
+            })
+        } catch (err:any){
+            console.error(`Erro ao atualizar Tipo Conta de ID ${id}`)
+            throw err;
+        }
+    }
+
+    async deletaTipoConta(id:number, descricao:string, codigoTipoConta:number){
+        const query = `DELETE FROM banco.tiposConta where id = ?`;
+
+        try{
+            const resultado = await executarComandoSQL(query, [id]);
+            console.log('Conta deletada com sucesso!', resultado);
+            const tipoConta = new TipoConta(id, descricao, codigoTipoConta);
+            return new Promise<TipoConta>((resolve)=>{
+                resolve(tipoConta);
+            })
+        } catch(err:any){
+            console.log(`Erro ao deletar Tipo Conta de ID: ${id}`);
             throw err;
         }
     }

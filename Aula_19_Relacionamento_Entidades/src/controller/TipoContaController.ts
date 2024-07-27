@@ -1,7 +1,7 @@
-import { TipoContaService } from "../service/TipoContaService"; 
+import { tipoContaService } from "../service/TipoContaService"; 
 import { Request, Response } from "express";
 
-    const serviceTipoConta:TipoContaService = new TipoContaService();
+    const serviceTipoConta:tipoContaService = new tipoContaService();
 
     export async function cadastrarTipoConta(req: Request, res:Response){
         try {
