@@ -40,36 +40,6 @@ export class tipo_conta {
         }
     }
 
-    async filterContaTipos():Promise<TipoConta[]>{
-        const query = 'SELECT * FROM banco.tiposConta';
-
-        try {
-            const resultado = await executarComandoSQL(query, []);
-            return new Promise<TipoConta[]>((resolve)=>{
-                resolve(resultado);
-            })
-        } catch (err:any){
-            console.error(`Falha ao buscar Tipos Conta: ${err}`);
-            throw err;
-        }
-    }
-
-    async filterTipoConta(id: number): Promise<TipoConta>{
-        const query = "SELECT * FROM banco.tiposConta where id = ?";
-
-        try{
-            const resultado = await executarComandoSQL(query, [id]);
-            console.log('Tipo Conta localizado com sucesso!', resultado);
-            return new Promise<TipoConta>((resolve)=>{
-                resolve(resultado);
-            })
-        } catch (err:any){
-            console.error(`Falha ao localizar Tipo Conta com ID: ${id}`);
-            throw err;
-            
-        }
-    }
-
     async atualizaTipoConta(id:number, descricao:string, codigoTipoConta:number): Promise<TipoConta>{
         const query = "UPDATE banco.tiposConta set descricao = ?, codigoTipoConta = ?";
 
@@ -98,6 +68,51 @@ export class tipo_conta {
             })
         } catch(err:any){
             console.log(`Erro ao deletar Tipo Conta de ID: ${id}`);
+            throw err;
+        }
+    }
+
+    async filterTipoConta(id: number, descricao:string, codigoTipoConta:number): Promise<TipoConta>{
+        const query = "SELECT * FROM banco.tiposConta where id = ?";
+
+        try{
+            const resultado = await executarComandoSQL(query, [id]);
+            console.log('Tipo Conta localizado com sucesso!', resultado);
+            const tipoConta = new TipoConta(id, descricao, codigoTipoConta)
+            return new Promise<TipoConta>((resolve)=>{
+                resolve(tipoConta);
+            })
+        } catch (err:any){
+            console.error(`Falha ao localizar Tipo Conta com ID: ${id}`);
+            throw err;
+            
+        }
+    }
+
+    async searchTipoConta(query:string, id:any): Promise<number>{
+
+        try{
+            const resultado = await executarComandoSQL(query, [id]);
+            console.log('Tipo Conta localizado com sucesso!', resultado);
+            return new Promise<number>((resolve)=>{
+                resolve(resultado.length);
+            })
+        } catch (err:any){
+            console.error(`Falha ao localizar Tipo Conta`);
+            throw err;
+        }
+    }
+
+    async filterContaTipos():Promise<TipoConta[]>{
+        const query = 'SELECT * FROM banco.tiposConta';
+
+        try {
+            const resultado = await executarComandoSQL(query, []);
+            return new Promise<TipoConta[]>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any){
+            console.error(`Falha ao buscar Tipos Conta: ${err}`);
             throw err;
         }
     }

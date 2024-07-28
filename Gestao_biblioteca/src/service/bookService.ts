@@ -96,8 +96,8 @@ export class ServiceBook{
         }
             
         const book = await this.bookRepository.updateBook(idNumber, titulo, autor, date, codigo, pagesBook, idioma, auditora);
-            console.log("Livro atualizado: ", book);
-            return book;
+        console.log("Livro atualizado: ", book);
+        return book;
     }
 
     async removeLivro(bookData: any): Promise<Book>{
