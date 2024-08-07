@@ -4,7 +4,7 @@ export class BasicResponseDto{
     object:  any;
 
     constructor(message: string, object:  any){
-        this.message =message;
+        this.message = message;
         this.object = object;
     }
 
