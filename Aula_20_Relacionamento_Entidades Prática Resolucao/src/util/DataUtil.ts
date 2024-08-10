@@ -18,6 +18,7 @@ export function stringParaData(dataString: string): Date {
     if (isNaN(data.getTime())) {
         throw new Error("Data inválida");
     }
+    
     return data;
 }
 
