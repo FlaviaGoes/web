@@ -7,5 +7,4 @@ export class BasicResponseDto{
         this.message = message;
         this.object = object;
     }
-
 }
