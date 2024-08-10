@@ -8,8 +8,6 @@ export class ClienteRepository {
         this.createTable();
     }
 
-
-
     public static getInstance(): ClienteRepository {
         if (!this.instance) {
             this.instance = new ClienteRepository();
