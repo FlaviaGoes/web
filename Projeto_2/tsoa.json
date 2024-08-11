@@ -1,8 +1,8 @@
 {
-    " entryFile ": " src / app . ts ",
-    " noImplicitAdditionalProperties ": " throw - on - extras ",
+    " entryFile ": " src/app.ts ",
+    " noImplicitAdditionalProperties ": " throw-on-extras ",
     " controllerPathGlobs ": [
-    " src / controller /**/*. ts "
+    " src/controller/**/*.ts "
     ],
     " spec ": {
         " outputDirectory ": " dist ",
@@ -15,14 +15,14 @@
             },
             " servers ": [
             {
-            " url ": " http :// localhost :3040/ api ",
+            " url ": " http://localhost:3040/api ",
             " description ": " Servidor de Desenvolvimento "
             }
             ]
         }
     },
     " routes ": {
-        " routesDir ": " src / route "
+        " routesDir ": " src/route "
     }
 }
     

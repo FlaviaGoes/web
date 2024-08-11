@@ -93,4 +93,18 @@ export class PessoaRepository {
             throw err;
         }
     }
+
+    async filtrarPessoas():Promise<Pessoa[]>{
+        const query = "SELECT * FROM biblioteca.Pessoa";
+
+        try {
+            const resultado = await executarComandoSQL(query, []);
+            return new Promise<Pessoa[]>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any) {
+            console.log('Falha ao listar pessoas cadastradas!');
+            throw err;
+        }
+    }
 }
