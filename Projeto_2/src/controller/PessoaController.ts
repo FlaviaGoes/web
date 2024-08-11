@@ -1,4 +1,3 @@
-import { Request, Response, Router } from "express";
 import { PessoaService } from "../service/PessoaService";
 import { BasicResponseDto } from "../model/dto/BasicResponseDto";
 import { PessoaRequestDto } from "../model/dto/PessoaRequestDto";
