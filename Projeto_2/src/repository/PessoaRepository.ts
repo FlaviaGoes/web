@@ -1,5 +1,5 @@
 import { executarComandoSQL } from "../database/mysql";
-import { Pessoa } from "../model/pessoa";
+import { Pessoa } from "../model/entity/pessoa";
 
 export class PessoaRepository {
 
@@ -43,7 +43,7 @@ export class PessoaRepository {
             return new Promise<Pessoa>((resolve)=> {
                 resolve(pessoa);
             })
-        } catch (err) {
+        } catch (err:any) {
             console.error('Erro ao cadastrar Pessoa:', err);
             throw err;
         }
