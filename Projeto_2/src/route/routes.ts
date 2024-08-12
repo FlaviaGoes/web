@@ -7,6 +7,8 @@ import { usuarioController } from './../controller/UsuarioController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { pessoaController } from './../controller/PessoaController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { livroController } from './../controller/LivroController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { categoriaController } from './../controller/CategoriaController';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
@@ -58,6 +60,27 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LivroRequestDto": {
+        "dataType": "refObject",
+        "properties": {
+            "titulo": {"dataType":"string","required":true},
+            "autor": {"dataType":"string","required":true},
+            "categoriaId": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LivroDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "titulo": {"dataType":"string","required":true},
+            "autor": {"dataType":"string","required":true},
+            "categoriaId": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -403,6 +426,165 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'listarPessoas',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/livro',
+            ...(fetchMiddlewares<RequestHandler>(livroController)),
+            ...(fetchMiddlewares<RequestHandler>(livroController.prototype.cadastrarLivro)),
+
+            async function livroController_cadastrarLivro(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    dto: {"in":"body","name":"dto","required":true,"ref":"LivroRequestDto"},
+                    fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
+                    success: {"in":"res","name":"201","required":true,"ref":"BasicResponseDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new livroController();
+
+              await templateService.apiHandler({
+                methodName: 'cadastrarLivro',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/livro',
+            ...(fetchMiddlewares<RequestHandler>(livroController)),
+            ...(fetchMiddlewares<RequestHandler>(livroController.prototype.atualizarLivro)),
+
+            async function livroController_atualizarLivro(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    dto: {"in":"body","name":"dto","required":true,"ref":"LivroDto"},
+                    notFound: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BasicResponseDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new livroController();
+
+              await templateService.apiHandler({
+                methodName: 'atualizarLivro',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/livro',
+            ...(fetchMiddlewares<RequestHandler>(livroController)),
+            ...(fetchMiddlewares<RequestHandler>(livroController.prototype.deletarLivro)),
+
+            async function livroController_deletarLivro(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    dto: {"in":"body","name":"dto","required":true,"ref":"LivroDto"},
+                    notFound: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BasicResponseDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new livroController();
+
+              await templateService.apiHandler({
+                methodName: 'deletarLivro',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/livro/id/:id',
+            ...(fetchMiddlewares<RequestHandler>(livroController)),
+            ...(fetchMiddlewares<RequestHandler>(livroController.prototype.filtrarLivro)),
+
+            async function livroController_filtrarLivro(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                    notFound: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BasicResponseDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new livroController();
+
+              await templateService.apiHandler({
+                methodName: 'filtrarLivro',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/livro/all',
+            ...(fetchMiddlewares<RequestHandler>(livroController)),
+            ...(fetchMiddlewares<RequestHandler>(livroController.prototype.listaLivros)),
+
+            async function livroController_listaLivros(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    notFound: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BasicResponseDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new livroController();
+
+              await templateService.apiHandler({
+                methodName: 'listaLivros',
                 controller,
                 response,
                 next,
