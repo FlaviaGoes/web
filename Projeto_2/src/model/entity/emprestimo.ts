@@ -1,4 +1,4 @@
-import { verificaFormatoData, stringParaData } from "../util/DataUtil";
+import { verificaFormatoData, stringParaData } from "../../util/DataUtil";
 
 verificaFormatoData
 

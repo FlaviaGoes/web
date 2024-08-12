@@ -21,22 +21,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pessoaController = void 0;
-const PessoaService_1 = require("../service/PessoaService");
+exports.categoriaController = void 0;
+const CategoriaService_1 = require("../service/CategoriaService");
 const BasicResponseDto_1 = require("../model/dto/BasicResponseDto");
-const PessoaRequestDto_1 = require("../model/dto/PessoaRequestDto");
-const PessoaDto_1 = require("../model/dto/PessoaDto");
+const CategoriaDto_1 = require("../model/dto/CategoriaDto");
+const CategoriaRequestDto_1 = require("../model/dto/CategoriaRequestDto"); //Retirar?
 const tsoa_1 = require("tsoa");
-let pessoaController = class pessoaController extends tsoa_1.Controller {
+let categoriaController = class categoriaController extends tsoa_1.Controller {
     constructor() {
         super(...arguments);
-        this.PessoaService = new PessoaService_1.PessoaService();
+        this.CategoriaService = new CategoriaService_1.CategoriaService();
     }
-    cadastrarPessoa(dto, fail, success) {
+    cadastrarCategoria(dto, fail, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pessoa = yield this.PessoaService.cadastraPessoa(dto);
-                return success(201, new BasicResponseDto_1.BasicResponseDto("Pessoa cadastrada com sucesso!", pessoa));
+                const categoria = yield this.CategoriaService.cadastrarCategoria(dto);
+                return success(201, new BasicResponseDto_1.BasicResponseDto("Categoria cadastrada com sucesso!", categoria));
             }
             catch (error) {
                 return fail(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
@@ -44,11 +44,11 @@ let pessoaController = class pessoaController extends tsoa_1.Controller {
         });
     }
     ;
-    atualizarPessoa(dto, notFound, success) {
+    atualizarCategoria(dto, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pessoa = yield this.PessoaService.atualizaPessoa(dto);
-                return success(200, new BasicResponseDto_1.BasicResponseDto("Pessoa atualizada com sucesso!", pessoa));
+                const categoria = yield this.CategoriaService.atualizaCategoria(dto);
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Categoria atualizada com sucesso!", categoria));
             }
             catch (error) {
                 return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
@@ -56,11 +56,11 @@ let pessoaController = class pessoaController extends tsoa_1.Controller {
         });
     }
     ;
-    deletarPessoa(dto, notFound, success) {
+    deletarCategoria(dto, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pessoa = yield this.PessoaService.deletaPessoa(dto);
-                return success(200, new BasicResponseDto_1.BasicResponseDto("Pessoa deletada com sucesso!", pessoa));
+                const categoria = yield this.CategoriaService.deletaCategoria(dto);
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Categoria deletada com sucesso!", categoria));
             }
             catch (error) {
                 return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
@@ -68,11 +68,11 @@ let pessoaController = class pessoaController extends tsoa_1.Controller {
         });
     }
     ;
-    filtrarPessoa(id, notFound, success) {
+    filtrarCategoria(id, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pessoa = yield this.PessoaService.filtraPessoa(id);
-                return success(200, new BasicResponseDto_1.BasicResponseDto("Pessoa encontrada com sucesso!", pessoa));
+                const categoria = yield this.CategoriaService.filtraCategoria(id);
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Categoria encontrada com sucesso!", categoria));
             }
             catch (error) {
                 return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
@@ -80,11 +80,11 @@ let pessoaController = class pessoaController extends tsoa_1.Controller {
         });
     }
     ;
-    listarPessoas(notFound, success) {
+    listarCategorias(notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pessoas = yield this.PessoaService.filtraPessoas();
-                return success(200, new BasicResponseDto_1.BasicResponseDto("Pessoas listadas com sucesso!", pessoas));
+                const categorias = yield this.CategoriaService.filtrarCategorias();
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Categorias listadas com sucesso!", categorias));
             }
             catch (error) {
                 return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
@@ -93,34 +93,34 @@ let pessoaController = class pessoaController extends tsoa_1.Controller {
     }
     ;
 };
-exports.pessoaController = pessoaController;
+exports.categoriaController = categoriaController;
 __decorate([
     (0, tsoa_1.Post)(),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [PessoaRequestDto_1.PessoaRequestDto, Function, Function]),
+    __metadata("design:paramtypes", [CategoriaRequestDto_1.CategoriaRequestDto, Function, Function]),
     __metadata("design:returntype", Promise)
-], pessoaController.prototype, "cadastrarPessoa", null);
+], categoriaController.prototype, "cadastrarCategoria", null);
 __decorate([
     (0, tsoa_1.Put)(),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [PessoaDto_1.PessoaDto, Function, Function]),
+    __metadata("design:paramtypes", [CategoriaDto_1.CategoriaDto, Function, Function]),
     __metadata("design:returntype", Promise)
-], pessoaController.prototype, "atualizarPessoa", null);
+], categoriaController.prototype, "atualizarCategoria", null);
 __decorate([
     (0, tsoa_1.Delete)(),
     __param(0, (0, tsoa_1.Body)()),
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [PessoaDto_1.PessoaDto, Function, Function]),
+    __metadata("design:paramtypes", [CategoriaDto_1.CategoriaDto, Function, Function]),
     __metadata("design:returntype", Promise)
-], pessoaController.prototype, "deletarPessoa", null);
+], categoriaController.prototype, "deletarCategoria", null);
 __decorate([
     (0, tsoa_1.Get)("id/{id}"),
     __param(0, (0, tsoa_1.Path)()),
@@ -129,7 +129,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Function, Function]),
     __metadata("design:returntype", Promise)
-], pessoaController.prototype, "filtrarPessoa", null);
+], categoriaController.prototype, "filtrarCategoria", null);
 __decorate([
     (0, tsoa_1.Get)("all"),
     __param(0, (0, tsoa_1.Res)()),
@@ -137,8 +137,8 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Function, Function]),
     __metadata("design:returntype", Promise)
-], pessoaController.prototype, "listarPessoas", null);
-exports.pessoaController = pessoaController = __decorate([
-    (0, tsoa_1.Route)("pessoa"),
-    (0, tsoa_1.Tags)("Pessoa")
-], pessoaController);
+], categoriaController.prototype, "listarCategorias", null);
+exports.categoriaController = categoriaController = __decorate([
+    (0, tsoa_1.Route)("categoria"),
+    (0, tsoa_1.Tags)("Categoria")
+], categoriaController);

@@ -44,7 +44,7 @@ export class UsuarioService {
 
     async filtrarUsuarios():Promise<Usuario[]> {
         const usuarios = await this.UsuarioRepository.filtrarUsuarios();
-        console.log("Filtrado: ", usuarios);
+        console.log("Filtrados: ", usuarios);
         return usuarios;
     }
 }

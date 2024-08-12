@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PessoaService = void 0;
-const pessoa_1 = require("../model/pessoa");
+const pessoa_1 = require("../model/entity/pessoa");
 const PessoaRepository_1 = require("../repository/PessoaRepository");
 class PessoaService {
     constructor() {
