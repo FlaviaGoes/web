@@ -25,6 +25,13 @@ export class pessoaController extends Controller {
             }
     };
 
+    /**
+    @example dto {
+            "id": 0,
+            "name": "brunno",
+            "email": "brunito@gmail.com"
+    }
+    */
     @Put()
     async atualizarPessoa(
         @Body() dto: PessoaDto,

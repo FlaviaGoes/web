@@ -470,6 +470,11 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/PessoaDto"
+							},
+							"example": {
+								"id": 0,
+								"name": "brunno",
+								"email": "brunito@gmail.com"
 							}
 						}
 					}

@@ -80,7 +80,7 @@ export class PessoaRepository {
     }
 
     async filtrarPessoaByNameId(id?: number, name?:string, email?:string):Promise<Pessoa[]>{
-        let query = "SELECT * FROM biblioteca.Pessoa where";
+        let query = "SELECT * FROM biblioteca.Pessoa where ";
         const params: any[] = [];
 
         if(name) {

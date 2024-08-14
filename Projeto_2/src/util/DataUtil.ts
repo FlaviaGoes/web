@@ -1,6 +1,6 @@
 export function verificaFormatoEmail(EmailString: string): boolean {
     let EmailIsCorrect = false;
-    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]/i;
     if (regex.test(EmailString)) {
         EmailIsCorrect = true;
     }

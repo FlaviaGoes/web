@@ -90,7 +90,7 @@ class PessoaRepository {
     }
     filtrarPessoaByNameId(id, name, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            let query = "SELECT * FROM biblioteca.Pessoa where";
+            let query = "SELECT * FROM biblioteca.Pessoa where ";
             const params = [];
             if (name) {
                 query += "name = ?";

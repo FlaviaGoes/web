@@ -44,6 +44,13 @@ let pessoaController = class pessoaController extends tsoa_1.Controller {
         });
     }
     ;
+    /**
+    @example dto {
+            "id": 0,
+            "name": "brunno",
+            "email": "brunito@gmail.com"
+    }
+    */
     atualizarPessoa(dto, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
