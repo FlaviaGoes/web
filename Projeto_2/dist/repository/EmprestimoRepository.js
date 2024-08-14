@@ -9,26 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PessoaRepository = void 0;
+exports.EmprestimoRepository = void 0;
 const mysql_1 = require("../database/mysql");
-class PessoaRepository {
+class EmprestimoRepository {
     constructor() {
         this.createTable();
     }
     static getInstance() {
         if (!this.instance) {
-            this.instance = new PessoaRepository();
+            this.instance = new EmprestimoRepository();
         }
         return this.instance;
     }
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS biblioteca.Pessoa
+        CREATE TABLE IF NOT EXISTS biblioteca.Emprestimo
         (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL
+            livroId INT NOT NULL,
+            usuarioId INT NOT NULL,
+            dataEmprestimo DATE NOT NULL,
+            dataDevolucao DATE NOT NULL
         )`;
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
@@ -39,88 +41,74 @@ class PessoaRepository {
             }
         });
     }
-    inserePessoa(pessoa) {
+    registraEmprestimo(emprestimo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO biblioteca.Pessoa(name, email) VALUES (?,?)";
+            const query = "INSERT INTO biblioteca.Emprestimo(livroId, usuarioId, dataEmprestimo, dataDevolucao) VALUES (?,?,?,?)";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pessoa.name, pessoa.email]);
-                console.log('Pessoa cadastrada com sucesso!');
-                pessoa.id = resultado.insertId;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [emprestimo.livroId, emprestimo.usuarioId, emprestimo.dataEmprestimo, emprestimo.dataDevolucao]);
+                console.log('Emprestimo registrado com sucesso!');
+                emprestimo.id = resultado.insertId;
                 return new Promise((resolve) => {
-                    resolve(pessoa);
+                    resolve(emprestimo);
                 });
             }
             catch (err) {
-                console.error('Erro ao cadastrar Pessoa:', err);
+                console.error('Erro ao cadastrar Usuario: ', err);
                 throw err;
             }
         });
     }
-    atualizaPessoa(pessoa) {
+    atualizaEmprestimo(emprestimo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "UPDATE biblioteca.Pessoa set name = ?, email = ? where id = ?;";
+            const query = "UPDATE biblioteca.Emprestimo set livroId = ?, usuarioId = ?, dataEmprestimo = ?, dataDevolucao = ? where id = ?";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pessoa.name, pessoa.email, pessoa.id]);
-                console.log('Pessoa atualizada com sucesso!');
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [emprestimo.livroId, emprestimo.usuarioId, emprestimo.dataEmprestimo, emprestimo.dataDevolucao]);
+                console.log('Emprestimo atualizado com sucesso!');
                 return new Promise((resolve) => {
-                    resolve(pessoa);
+                    resolve(emprestimo);
                 });
             }
             catch (err) {
-                console.error(`Erro ao atualizar a pessoa de ID ${pessoa.id} gerando o erro: ${err}`);
+                console.error(`Erro ao atualizar a Emprestimo de ID ${emprestimo.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
-    deletaPessoa(pessoa) {
+    deletaEmprestimo(emprestimo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM biblioteca.Pessoa where id = ?;";
+            const query = "DELETE FROM biblioteca.Emprestimo where id = ?;";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pessoa.id]);
-                console.log('Pessoa deletada com sucesso: ', pessoa);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [emprestimo.id]);
+                console.log('Usuario deletado com sucesso: ', emprestimo);
                 return new Promise((resolve) => {
-                    resolve(pessoa);
+                    resolve(emprestimo);
                 });
             }
             catch (err) {
-                console.error(`Falha ao deletar a Pessoa de ID ${pessoa.id} gerando o erro: ${err}`);
+                console.error(`Falha ao deletar o Emprestimo de ID ${emprestimo.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
-    filtrarPessoaByNameId(id, name, email) {
+    filtraEmprestimo(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let query = "SELECT * FROM biblioteca.Pessoa where";
-            const params = [];
-            if (name) {
-                query += "name = ?";
-                params.push(name);
-            }
-            if (id) {
-                query += "id = ?";
-                params.push(id);
-            }
-            if (email) {
-                query += "email = ?";
-                params.push(email);
-            }
-            if (params.length === 0) {
-                throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
-            }
+            const query = "SELECT * FROM biblioteca.Emprestimo where id = ?";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, params);
-                console.log('Busca afetuada com sucesso: ', resultado);
-                return resultado;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
+                console.log('Emprestimo localizado com sucesso, ID: ', resultado);
+                return new Promise((resolve) => {
+                    resolve(resultado);
+                });
             }
             catch (err) {
-                console.error(`Falha ao procurar pessoa gerando o erro: ${err}`);
+                console.error(`Falha ao procurar Emprestimo gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
-    filtrarPessoas() {
+    filtrarEmprestimos() {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Pessoa";
+            const query = "SELECT * FROM biblioteca.Emprestimo";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
                 return new Promise((resolve) => {
@@ -128,10 +116,10 @@ class PessoaRepository {
                 });
             }
             catch (err) {
-                console.log('Falha ao listar pessoas cadastradas!');
+                console.log('Falha ao listar Emprestimos registrados!');
                 throw err;
             }
         });
     }
 }
-exports.PessoaRepository = PessoaRepository;
+exports.EmprestimoRepository = EmprestimoRepository;

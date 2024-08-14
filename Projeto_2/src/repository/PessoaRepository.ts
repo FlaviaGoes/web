@@ -79,17 +79,36 @@ export class PessoaRepository {
         }
     }
 
-    async filtrarPessoa(id: number):Promise<Pessoa>{
-        const query = "SELECT * FROM biblioteca.Pessoa where id = ?";
+    async filtrarPessoaByNameId(id?: number, name?:string, email?:string):Promise<Pessoa[]>{
+        let query = "SELECT * FROM biblioteca.Pessoa where";
+        const params: any[] = [];
+
+        if(name) {
+            query += "name = ?";
+            params.push(name);
+        }
+
+        if(id) {
+            query += "id = ?";
+            params.push(id);
+        }
+
+        if(email) {
+            query += "email = ?";
+            params.push(email);
+        }
+
+        if (params.length === 0) {
+            throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
+        }
 
         try {
-            const resultado = await executarComandoSQL(query, [id]);
-            console.log('Pessoa localizada com sucesso, ID: ', resultado);
-            return new Promise<Pessoa>((resolve)=>{
-                resolve(resultado);
-            })
+            const resultado: Pessoa[] = await executarComandoSQL(query, params);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
         } catch (err:any){
-            console.error(`Falha ao procurar a pessoa gerando o erro: ${err}`);
+            console.error(`Falha ao procurar pessoa gerando o erro: ${err}`);
             throw err;
         }
     }

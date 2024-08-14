@@ -19,7 +19,15 @@ class PessoaService {
     cadastraPessoa(pessoaData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email } = pessoaData;
-            const pessoa = new pessoa_1.Pessoa(undefined, name, email);
+            const pessoa = new pessoa_1.Pessoa(undefined, name.toLowerCase(), email);
+            let pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(undefined, name.toLowerCase(), undefined);
+            if (pessoaEncontrada.length > 0) {
+                throw new Error("Pessoa com esse nome já cadastrada!");
+            }
+            pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(undefined, undefined, email.toLowerCase());
+            if (pessoaEncontrada.length > 0) {
+                throw new Error("Pessoa com esse email já cadastrada!");
+            }
             const novaPessoa = yield this.PessoaRepository.inserePessoa(pessoa);
             console.log("Cadastrado:", novaPessoa);
             return novaPessoa;
@@ -28,7 +36,14 @@ class PessoaService {
     atualizaPessoa(pessoaData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id, name, email } = pessoaData;
+            if (typeof id !== 'number') {
+                throw new Error("Informe um ID correto.");
+            }
             const pessoa = new pessoa_1.Pessoa(id, name, email);
+            const pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id, pessoa.name, pessoa.email);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Cliente informado inexistente.");
+            }
             yield this.PessoaRepository.atualizaPessoa(pessoa);
             console.log("Atualizado:", pessoa);
             return pessoa;
@@ -37,7 +52,14 @@ class PessoaService {
     deletaPessoa(pessoaData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id, name, email } = pessoaData;
+            if (typeof id !== 'number') {
+                throw new Error("Informe um ID correto.");
+            }
             const pessoa = new pessoa_1.Pessoa(id, name, email);
+            const pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id, pessoa.name, pessoa.email);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Pessoa informada inexistente.");
+            }
             yield this.PessoaRepository.deletaPessoa(pessoa);
             console.log("Deletado: ", pessoa);
             return pessoa;
@@ -46,9 +68,12 @@ class PessoaService {
     filtraPessoa(pessoaData) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = parseInt(pessoaData, 10);
-            const pessoa = yield this.PessoaRepository.filtrarPessoa(id);
+            const pessoa = yield this.PessoaRepository.filtrarPessoaByNameId(id, undefined, undefined);
             console.log("Filtrado: ", pessoa);
-            return pessoa;
+            if (pessoa.length > 0) {
+                return pessoa;
+            }
+            return null;
         });
     }
     filtraPessoas() {
