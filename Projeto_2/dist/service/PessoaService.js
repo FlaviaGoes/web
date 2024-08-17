@@ -40,9 +40,17 @@ class PessoaService {
                 throw new Error("Informe um ID correto.");
             }
             const pessoa = new pessoa_1.Pessoa(id, name, email);
-            const pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id, pessoa.name, pessoa.email);
+            let pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id);
             if (pessoaEncontrada.length == 0) {
-                throw new Error("Cliente informado inexistente.");
+                throw new Error("Cliente informado com id inexistente.");
+            }
+            pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(undefined, pessoa.name);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Cliente com nome informado não cadastrada.");
+            }
+            pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(undefined, undefined, pessoa.email);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Email não cadastrado.");
             }
             yield this.PessoaRepository.atualizaPessoa(pessoa);
             console.log("Atualizado:", pessoa);
@@ -56,7 +64,7 @@ class PessoaService {
                 throw new Error("Informe um ID correto.");
             }
             const pessoa = new pessoa_1.Pessoa(id, name, email);
-            const pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id, pessoa.name, pessoa.email);
+            const pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id);
             if (pessoaEncontrada.length == 0) {
                 throw new Error("Pessoa informada inexistente.");
             }

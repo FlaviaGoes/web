@@ -113,6 +113,31 @@ export class PessoaRepository {
         }
     }
 
+    async confirmaNameEmailByID(id: number, name?:string, email?:string):Promise<Pessoa[]>{
+        let query = "SELECT * FROM biblioteca.Pessoa where id = ? and ";
+        const params: any[] = [];
+
+        if(name) {
+            query += "name = ?";
+            params.push(name);
+        }
+
+        if(email) {
+            query += "email = ?";
+            params.push(email);
+        }
+
+        try {
+            const resultado: Pessoa[] = await executarComandoSQL(query, params);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
+        } catch (err:any){
+            console.error(`Falha ao procurar pessoa gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
     async filtrarPessoas():Promise<Pessoa[]>{
         const query = "SELECT * FROM biblioteca.Pessoa";
 

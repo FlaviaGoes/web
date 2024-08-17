@@ -35,10 +35,22 @@ export class PessoaService {
 
         const pessoa = new Pessoa(id, name, email);
 
-        const pessoaEncontrada: Pessoa[] = await this.PessoaRepository.filtrarPessoaByNameId(pessoa.id, pessoa.name, pessoa.email)
+        let pessoaEncontrada: Pessoa[] = await this.PessoaRepository.filtrarPessoaByNameId(pessoa.id)
 
         if(pessoaEncontrada.length == 0){
-            throw new Error("Cliente informado inexistente.");
+            throw new Error("Pessoa informada com id inexistente.");
+        }
+
+        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.name);
+
+        if(pessoaEncontrada.length == 0){
+            throw new Error("Pessoa com nome informado não cadastrado.");
+        }
+
+        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.email);
+
+        if(pessoaEncontrada.length == 0){
+            throw new Error("Email informado não cadastrado.");
         }
 
         await this.PessoaRepository.atualizaPessoa(pessoa);
@@ -54,10 +66,22 @@ export class PessoaService {
         }
 
         const pessoa = new Pessoa(id, name, email);
-        const pessoaEncontrada: Pessoa[]= await this.PessoaRepository.filtrarPessoaByNameId(pessoa.id, pessoa.name, pessoa.email)
+        let pessoaEncontrada: Pessoa[]= await this.PessoaRepository.filtrarPessoaByNameId(pessoa.id)
 
         if(pessoaEncontrada.length == 0){
-            throw new Error("Pessoa informada inexistente.");
+            throw new Error("Pessoa informada com id inexistente.");
+        }
+
+        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.name);
+
+        if(pessoaEncontrada.length == 0){
+            throw new Error("Pessoa com nome informado não cadastrado.");
+        }
+
+        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.email);
+
+        if(pessoaEncontrada.length == 0){
+            throw new Error("Email informado não cadastrado.");
         }
 
         await this.PessoaRepository.deletaPessoa(pessoa);
