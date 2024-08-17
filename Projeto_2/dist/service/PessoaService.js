@@ -12,9 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PessoaService = void 0;
 const pessoa_1 = require("../model/entity/pessoa");
 const PessoaRepository_1 = require("../repository/PessoaRepository");
+const UsuarioRepository_1 = require("../repository/UsuarioRepository");
 class PessoaService {
     constructor() {
         this.PessoaRepository = PessoaRepository_1.PessoaRepository.getInstance();
+        this.UsuarioRepository = UsuarioRepository_1.UsuarioRepository.getInstance();
     }
     cadastraPessoa(pessoaData) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -42,15 +44,7 @@ class PessoaService {
             const pessoa = new pessoa_1.Pessoa(id, name, email);
             let pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id);
             if (pessoaEncontrada.length == 0) {
-                throw new Error("Cliente informado com id inexistente.");
-            }
-            pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(undefined, pessoa.name);
-            if (pessoaEncontrada.length == 0) {
-                throw new Error("Cliente com nome informado não cadastrada.");
-            }
-            pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(undefined, undefined, pessoa.email);
-            if (pessoaEncontrada.length == 0) {
-                throw new Error("Email não cadastrado.");
+                throw new Error("Pessoa informada com id inexistente.");
             }
             yield this.PessoaRepository.atualizaPessoa(pessoa);
             console.log("Atualizado:", pessoa);
@@ -64,9 +58,21 @@ class PessoaService {
                 throw new Error("Informe um ID correto.");
             }
             const pessoa = new pessoa_1.Pessoa(id, name, email);
-            const pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id);
+            let pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(pessoa.id);
             if (pessoaEncontrada.length == 0) {
-                throw new Error("Pessoa informada inexistente.");
+                throw new Error("Pessoa informada com id inexistente.");
+            }
+            pessoaEncontrada = yield this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.name, undefined);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Pessoa com nome informado não cadastrada.");
+            }
+            pessoaEncontrada = yield this.PessoaRepository.confirmaNameEmailByID(pessoa.id, undefined, pessoa.email);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Email incorreto");
+            }
+            let usuarioPessoa = yield this.UsuarioRepository.filtrarUsuarioById(undefined, pessoa.id);
+            if (usuarioPessoa.length > 0) {
+                throw new Error("Não é possível deletar essa pessoa, primeiro desabilite o usuario.");
             }
             yield this.PessoaRepository.deletaPessoa(pessoa);
             console.log("Deletado: ", pessoa);
@@ -76,12 +82,13 @@ class PessoaService {
     filtraPessoa(pessoaData) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = parseInt(pessoaData, 10);
+            let pessoaEncontrada = yield this.PessoaRepository.filtrarPessoaByNameId(id);
+            if (pessoaEncontrada.length == 0) {
+                throw new Error("Pessoa informada com id inexistente.");
+            }
             const pessoa = yield this.PessoaRepository.filtrarPessoaByNameId(id, undefined, undefined);
             console.log("Filtrado: ", pessoa);
-            if (pessoa.length > 0) {
-                return pessoa;
-            }
-            return null;
+            return pessoa;
         });
     }
     filtraPessoas() {

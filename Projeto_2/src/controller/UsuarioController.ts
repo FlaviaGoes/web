@@ -31,7 +31,7 @@ export class usuarioController extends Controller {
         @Res() success: TsoaResponse<200, BasicResponseDto>
     ) : Promise < | void> {
         try {
-            const usuario = await this.UsuarioService.cadastraUsuario(dto);
+            const usuario = await this.UsuarioService.atualizaUsuario(dto);
             return success(200, new BasicResponseDto("Usuario atualizado com sucesso!", usuario));
         } catch (error:any){
             return notFound(400, new BasicResponseDto(error.message, undefined));

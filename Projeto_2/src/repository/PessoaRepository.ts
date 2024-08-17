@@ -128,7 +128,7 @@ export class PessoaRepository {
         }
 
         try {
-            const resultado: Pessoa[] = await executarComandoSQL(query, params);
+            const resultado: Pessoa[] = await executarComandoSQL(query, [id, params]);
             console.log('Busca afetuada com sucesso: ', resultado);
             return resultado;
           

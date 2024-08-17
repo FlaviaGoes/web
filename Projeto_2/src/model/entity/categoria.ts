@@ -3,14 +3,14 @@ export class Categoria {
     name: string;
 
     constructor(id?: number, name?: string) {
-        this.validateInfo(id, name);
+        this.validateInfo(name);
         this.id = id || 0;
         this.name = name || '';
     }
 
-    private validateInfo(id:any, name:any){
+    private validateInfo(name:any){
         let error ='';
-        if (typeof id !== 'number' || typeof name !== 'string') {
+        if (typeof name !== 'string') {
             error += ("Informações incompletas ou incorretas. ");
         }
 

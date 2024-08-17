@@ -1,8 +1,10 @@
 import { Pessoa } from "../model/entity/pessoa";
 import { PessoaRepository } from "../repository/PessoaRepository";
+import { UsuarioRepository } from "../repository/UsuarioRepository";
 
 export class PessoaService {
     private PessoaRepository = PessoaRepository.getInstance();
+    private UsuarioRepository = UsuarioRepository.getInstance();
 
     async cadastraPessoa(pessoaData: any):Promise<Pessoa> {
         const {name, email} = pessoaData;
@@ -41,18 +43,6 @@ export class PessoaService {
             throw new Error("Pessoa informada com id inexistente.");
         }
 
-        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.name);
-
-        if(pessoaEncontrada.length == 0){
-            throw new Error("Pessoa com nome informado não cadastrado.");
-        }
-
-        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.email);
-
-        if(pessoaEncontrada.length == 0){
-            throw new Error("Email informado não cadastrado.");
-        }
-
         await this.PessoaRepository.atualizaPessoa(pessoa);
         console.log("Atualizado:", pessoa);
         return pessoa;
@@ -72,16 +62,22 @@ export class PessoaService {
             throw new Error("Pessoa informada com id inexistente.");
         }
 
-        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.name);
+        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.name, undefined);
 
         if(pessoaEncontrada.length == 0){
-            throw new Error("Pessoa com nome informado não cadastrado.");
+            throw new Error("Pessoa com nome informado não cadastrada.");
         }
 
-        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, pessoa.email);
+        pessoaEncontrada = await this.PessoaRepository.confirmaNameEmailByID(pessoa.id, undefined, pessoa.email);
 
         if(pessoaEncontrada.length == 0){
-            throw new Error("Email informado não cadastrado.");
+            throw new Error("Email incorreto");
+        }
+
+        let usuarioPessoa = await this.UsuarioRepository.filtrarUsuarioById(undefined, pessoa.id);
+
+        if(usuarioPessoa.length > 0){
+            throw new Error("Não é possível deletar essa pessoa, primeiro desabilite o usuario.");
         }
 
         await this.PessoaRepository.deletaPessoa(pessoa);
@@ -92,13 +88,15 @@ export class PessoaService {
     async filtraPessoa(pessoaData: any):Promise<Pessoa[]|null>{
         const id = parseInt(pessoaData, 10);
 
+        let pessoaEncontrada: Pessoa[] = await this.PessoaRepository.filtrarPessoaByNameId(id)
+
+        if(pessoaEncontrada.length == 0){
+            throw new Error("Pessoa informada com id inexistente.");
+        }
+
         const pessoa: Pessoa[] = await this.PessoaRepository.filtrarPessoaByNameId(id, undefined, undefined);
         console.log("Filtrado: ", pessoa);
-
-        if(pessoa.length > 0){
-            return pessoa;
-        }
-        return null
+        return pessoa;
     }
 
     async filtraPessoas():Promise<Pessoa[]> {

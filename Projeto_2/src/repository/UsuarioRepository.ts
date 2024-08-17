@@ -79,17 +79,56 @@ export class UsuarioRepository {
         }
     }
 
-    async filtraUsuario(id: number):Promise<Usuario>{
-        const query = "SELECT * FROM biblioteca.Usuario where id = ?";
+    async filtrarUsuarioById(id?:number, idPessoa?: number):Promise<Usuario[]>{
+        let query = "SELECT * FROM biblioteca.Usuario where ";
+        const params: any[] = [];
+
+        if(id) {
+            query += "id = ?";
+            params.push(id);
+        }
+
+        if(idPessoa) {
+            query += "idPessoa = ?";
+            params.push(idPessoa);
+        }
+
+        if (params.length === 0) {
+            throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
+        }
 
         try {
-            const resultado = await executarComandoSQL(query, [id]);
-            console.log('Usuario localizado com sucesso, ID: ', resultado);
-            return new Promise<Usuario>((resolve)=>{
-                resolve(resultado);
-            })
+            const resultado: Usuario[] = await executarComandoSQL(query, params);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
         } catch (err:any){
-            console.error(`Falha ao procurar Usuario gerando o erro: ${err}`);
+            console.error(`Falha ao procurar usuario gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
+    async confirmaSenhaById(id: number, idPessoa?:number, senha?:string):Promise<Usuario[]>{
+        let query = "SELECT * FROM biblioteca.Pessoa where id = ? and ";
+        const params: any[] = [];
+
+        if(idPessoa) {
+            query += "idPessoa = ?";
+            params.push(idPessoa);
+        }
+
+        if(senha) {
+            query += "senha = ?";
+            params.push(senha);
+        }
+
+        try {
+            const resultado: Usuario[] = await executarComandoSQL(query, [id, params]);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
+        } catch (err:any){
+            console.error(`Falha ao procurar usuario gerando o erro: ${err}`);
             throw err;
         }
     }

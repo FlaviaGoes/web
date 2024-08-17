@@ -118,6 +118,29 @@ class PessoaRepository {
             }
         });
     }
+    confirmaNameEmailByID(id, name, email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = "SELECT * FROM biblioteca.Pessoa where id = ? and ";
+            const params = [];
+            if (name) {
+                query += "name = ?";
+                params.push(name);
+            }
+            if (email) {
+                query += "email = ?";
+                params.push(email);
+            }
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id, params]);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
+            }
+            catch (err) {
+                console.error(`Falha ao procurar pessoa gerando o erro: ${err}`);
+                throw err;
+            }
+        });
+    }
     filtrarPessoas() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "SELECT * FROM biblioteca.Pessoa";

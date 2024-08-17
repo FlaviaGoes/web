@@ -88,6 +88,55 @@ class UsuarioRepository {
             }
         });
     }
+    filtrarUsuarioById(id, idPessoa) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = "SELECT * FROM biblioteca.Usuario where ";
+            const params = [];
+            if (id) {
+                query += "id = ?";
+                params.push(id);
+            }
+            if (idPessoa) {
+                query += "idPessoa = ?";
+                params.push(idPessoa);
+            }
+            if (params.length === 0) {
+                throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
+            }
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, params);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
+            }
+            catch (err) {
+                console.error(`Falha ao procurar usuario gerando o erro: ${err}`);
+                throw err;
+            }
+        });
+    }
+    confirmaSenhaById(id, idPessoa, senha) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = "SELECT * FROM biblioteca.Pessoa where id = ? and ";
+            const params = [];
+            if (idPessoa) {
+                query += "idPessoa = ?";
+                params.push(idPessoa);
+            }
+            if (senha) {
+                query += "senha = ?";
+                params.push(senha);
+            }
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id, params]);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
+            }
+            catch (err) {
+                console.error(`Falha ao procurar usuario gerando o erro: ${err}`);
+                throw err;
+            }
+        });
+    }
     filtraUsuario(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "SELECT * FROM biblioteca.Usuario where id = ?";

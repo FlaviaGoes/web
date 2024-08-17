@@ -78,17 +78,45 @@ export class CategoriaRepository {
         }
     }
 
-    async filtraCategoria(id: number):Promise<Categoria>{
-        const query = "SELECT * FROM biblioteca.Categoria where id = ?";
+    async filtraCategoriaById(id?:number, name?: string):Promise<Categoria[]>{
+        let query = "SELECT * FROM biblioteca.Categoria where ";
+        const params: any[] = [];
+
+        if(id) {
+            query += "id = ?";
+            params.push(id);
+        }
+
+        if(name) {
+            query += "name = ?";
+            params.push(name);
+        }
+
+        if (params.length === 0) {
+            throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
+        }
 
         try {
-            const resultado = await executarComandoSQL(query, [id]);
-            console.log('Categoria localizada com sucesso, ID: ', resultado);
-            return new Promise<Categoria>((resolve)=>{
-                resolve(resultado);
-            })
+            const resultado: Categoria[] = await executarComandoSQL(query, params);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
         } catch (err:any){
-            console.error(`Falha ao procurar Categoria gerando o erro: ${err}`);
+            console.error(`Falha ao procurar categoria gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
+    async confirmaCategoriaById(id: number, name?:string):Promise<Categoria[]>{
+        let query = "SELECT * FROM biblioteca.Categoria where id = ? and name = ?";
+        
+        try {
+            const resultado = await executarComandoSQL(query, [id, name]);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
+        } catch (err:any){
+            console.error(`Falha ao procurar categoria com id ${id} e name ${name} gerando o erro: ${err}`);
             throw err;
         }
     }
