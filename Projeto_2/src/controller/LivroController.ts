@@ -73,7 +73,7 @@ export class livroController extends Controller {
     ) : Promise < | void> {
         try {
             const livros : Livro[] = await this.livroService.filtrarLivros()
-            return success(200, new BasicResponseDto("Usuarios listados com sucesso!", livros));
+            return success(200, new BasicResponseDto("Livros listados com sucesso!", livros));
         } catch (error:any) {
             return notFound(400, new BasicResponseDto(error.message, undefined));
         }

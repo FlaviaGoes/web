@@ -80,13 +80,56 @@ export class LivroRepository {
         }
     }
 
-    async filtraLivro(id: number):Promise<Livro>{
-        const query = "SELECT * FROM biblioteca.Livro where id = ?";
+    async confirmaLivroById(id: number, titulo?:string, autor?:string, categoriaId?:number):Promise<Livro[]>{
+        let query = "SELECT * FROM biblioteca.Livro where id = ? and ";
+
+        const params: any[] = [];
+
+        if(titulo) {
+            query += "titulo = ?";
+            params.push(titulo);
+        }
+
+        if(autor) {
+            query += "autor = ?";
+            params.push(autor);
+        }
+
+        if(categoriaId) {
+            query += "categoriaId = ?";
+            params.push(categoriaId);
+        }
+        
+        try {
+            const resultado = await executarComandoSQL(query, [id, params]);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
+        } catch (err:any){
+            console.error(`Falha ao procurar livro gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
+    async filtraLivro(id?:number, categoriaId?:number):Promise<Livro[]>{
+        let query = "SELECT * FROM biblioteca.Livro where ";
+
+        const params: any[] = [];
+
+        if(id) {
+            query += "id = ?";
+            params.push(id);
+        }
+
+        if(categoriaId) {
+            query += "categoriaId = ?";
+            params.push(categoriaId);
+        }
 
         try {
-            const resultado = await executarComandoSQL(query, [id]);
+            const resultado = await executarComandoSQL(query, [params]);
             console.log('Livro localizado com sucesso, ID: ', resultado);
-            return new Promise<Livro>((resolve)=>{
+            return new Promise<Livro[]>((resolve)=>{
                 resolve(resultado);
             })
         } catch (err:any){
@@ -96,7 +139,7 @@ export class LivroRepository {
     }
 
     async filtrarLivros():Promise<Livro[]>{
-        const query = "SELECT * FROM biblioteca.Usuario";
+        const query = "SELECT * FROM biblioteca.Livro";
 
         try {
             const resultado = await executarComandoSQL(query, []);

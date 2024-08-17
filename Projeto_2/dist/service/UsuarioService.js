@@ -43,6 +43,10 @@ class UsuarioService {
             if (usuarioEncontrado.length == 0) {
                 throw new Error("Usuario não encontrado!");
             }
+            let pessoaExiste = yield this.PessoaRepository.filtrarPessoaByNameId(usuario.idPessoa);
+            if (pessoaExiste.length == 0) {
+                throw new Error("Pessoa com id inexistente.");
+            }
             yield this.UsuarioRepository.atualizaUsuario(usuario);
             console.log("Atualizado:", usuario);
             return usuario;
@@ -76,7 +80,7 @@ class UsuarioService {
             if (usuarioEncontrado.length == 0) {
                 throw new Error("Usuario não encontrado.");
             }
-            const usuario = yield this.UsuarioRepository.filtraUsuario(id);
+            let usuario = yield this.UsuarioRepository.filtrarUsuarioById(id);
             console.log("Filtrado: ", usuario);
             return usuario;
         });

@@ -87,18 +87,42 @@ class CategoriaRepository {
             }
         });
     }
-    filtraCategoria(id) {
+    filtraCategoriaById(id, name) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Categoria where id = ?";
+            let query = "SELECT * FROM biblioteca.Categoria where ";
+            const params = [];
+            if (id) {
+                query += "id = ?";
+                params.push(id);
+            }
+            if (name) {
+                query += "name = ?";
+                params.push(name);
+            }
+            if (params.length === 0) {
+                throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
+            }
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Categoria localizada com sucesso, ID: ', resultado);
-                return new Promise((resolve) => {
-                    resolve(resultado);
-                });
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, params);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
             }
             catch (err) {
-                console.error(`Falha ao procurar Categoria gerando o erro: ${err}`);
+                console.error(`Falha ao procurar categoria gerando o erro: ${err}`);
+                throw err;
+            }
+        });
+    }
+    confirmaCategoriaById(id, name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = "SELECT * FROM biblioteca.Categoria where id = ? and name = ?";
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id, name]);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
+            }
+            catch (err) {
+                console.error(`Falha ao procurar categoria com id ${id} e name ${name} gerando o erro: ${err}`);
                 throw err;
             }
         });

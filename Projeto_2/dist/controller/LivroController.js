@@ -84,7 +84,7 @@ let livroController = class livroController extends tsoa_1.Controller {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const livros = yield this.livroService.filtrarLivros();
-                return success(200, new BasicResponseDto_1.BasicResponseDto("Usuarios listados com sucesso!", livros));
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Livros listados com sucesso!", livros));
             }
             catch (error) {
                 return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));

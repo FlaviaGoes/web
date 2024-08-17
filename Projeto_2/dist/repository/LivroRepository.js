@@ -89,11 +89,47 @@ class LivroRepository {
             }
         });
     }
-    filtraLivro(id) {
+    confirmaLivroById(id, titulo, autor, categoriaId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Livro where id = ?";
+            let query = "SELECT * FROM biblioteca.Livro where id = ? and ";
+            const params = [];
+            if (titulo) {
+                query += "titulo = ?";
+                params.push(titulo);
+            }
+            if (autor) {
+                query += "autor = ?";
+                params.push(autor);
+            }
+            if (categoriaId) {
+                query += "categoriaId = ?";
+                params.push(categoriaId);
+            }
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id, params]);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
+            }
+            catch (err) {
+                console.error(`Falha ao procurar livro gerando o erro: ${err}`);
+                throw err;
+            }
+        });
+    }
+    filtraLivro(id, categoriaId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = "SELECT * FROM biblioteca.Livro where ";
+            const params = [];
+            if (id) {
+                query += "id = ?";
+                params.push(id);
+            }
+            if (categoriaId) {
+                query += "categoriaId = ?";
+                params.push(categoriaId);
+            }
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [params]);
                 console.log('Livro localizado com sucesso, ID: ', resultado);
                 return new Promise((resolve) => {
                     resolve(resultado);
@@ -107,7 +143,7 @@ class LivroRepository {
     }
     filtrarLivros() {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Usuario";
+            const query = "SELECT * FROM biblioteca.Livro";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
                 return new Promise((resolve) => {

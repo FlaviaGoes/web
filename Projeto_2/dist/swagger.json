@@ -144,6 +144,59 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"EmprestimoRequestDto": {
+				"properties": {
+					"livroId": {
+						"type": "number",
+						"format": "double"
+					},
+					"usuarioId": {
+						"type": "number",
+						"format": "double"
+					},
+					"dataEmprestimo": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"livroId",
+					"usuarioId",
+					"dataEmprestimo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EmprestimoDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"livroId": {
+						"type": "number",
+						"format": "double"
+					},
+					"usuarioId": {
+						"type": "number",
+						"format": "double"
+					},
+					"dataEmprestimo": {
+						"type": "string"
+					},
+					"dataDevolucao": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"livroId",
+					"usuarioId",
+					"dataEmprestimo",
+					"dataDevolucao"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CategoriaRequestDto": {
 				"properties": {
 					"name": {
@@ -794,6 +847,234 @@
 				},
 				"tags": [
 					"Livro"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/emprestimo": {
+			"post": {
+				"operationId": "RegistrarEmprestimo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EmprestimoRequestDto"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "AtualizarEmprestimo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EmprestimoDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletaEmprestimo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EmprestimoDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/emprestimo/id/{id}": {
+			"get": {
+				"operationId": "FiltraEmprestimo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimo"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/emprestimo/all": {
+			"get": {
+				"operationId": "ListarEmprestimos",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimo"
 				],
 				"security": [],
 				"parameters": []

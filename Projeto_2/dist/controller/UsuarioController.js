@@ -47,7 +47,7 @@ let usuarioController = class usuarioController extends tsoa_1.Controller {
     atualizarUsuario(dto, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const usuario = yield this.UsuarioService.cadastraUsuario(dto);
+                const usuario = yield this.UsuarioService.atualizaUsuario(dto);
                 return success(200, new BasicResponseDto_1.BasicResponseDto("Usuario atualizado com sucesso!", usuario));
             }
             catch (error) {

@@ -1,14 +1,16 @@
 import { Categoria } from "../model/entity/categoria";
 import { CategoriaRepository } from "../repository/CategoriaRepository";
+import { LivroRepository } from "../repository/LivroRepository";
 
 export class CategoriaService {
     private CategoriaRepository = CategoriaRepository.getInstance();
+    private LivroRepository = LivroRepository.getInstance();
 
     async cadastrarCategoria(categoriaData:any):Promise<Categoria>{
-        
-        const categoria = new Categoria(undefined, categoriaData);
+        const {name} = categoriaData;
+        const categoria = new Categoria(undefined, name.toLowerCase());
 
-        let categoriaExiste = await this.CategoriaRepository.filtraCategoriaById(undefined, categoria.name)
+        let categoriaExiste = await this.CategoriaRepository.filtraCategoriaById(undefined, categoria.name.toLocaleLowerCase())
 
         if(categoriaExiste.length > 0){
             throw new Error("Categoria já cadastrada.");
@@ -46,6 +48,11 @@ export class CategoriaService {
 
         if(categoriaExiste.length == 0){
             throw new Error("Confirme os dados inseridos.");
+        }
+
+        let livroExiste = await this.LivroRepository.filtraLivro(undefined, categoria.id)
+        if(livroExiste.length == 0){
+            throw new Error("Não é possível desabilitar essa categoria.");
         }
 
         await this.CategoriaRepository.deletaCategoria(categoria);

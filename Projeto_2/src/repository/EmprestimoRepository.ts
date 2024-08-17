@@ -81,17 +81,71 @@ export class EmprestimoRepository {
         }
     }
 
-    async filtraEmprestimo(id: number):Promise<Emprestimo>{
-        const query = "SELECT * FROM biblioteca.Emprestimo where id = ?";
+    async confirmaEmprestimoById(id: number, livroId?:number, usuarioId?:number, dataEmprestimo?:Date, dataDevolucao?:Date):Promise<Emprestimo[]>{
+        let query = "SELECT * FROM biblioteca.Emprestimo where id = ? and ";
+
+        const params: any[] = [];
+
+        if(livroId) {
+            query += "livroId = ?";
+            params.push(livroId);
+        }
+
+        if(usuarioId) {
+            query += "usuarioId = ?";
+            params.push(usuarioId);
+        }
+
+        if(dataEmprestimo) {
+            query += "dataEmprestimo = ?";
+            params.push(dataEmprestimo);
+        }
+
+        if(dataDevolucao) {
+            query += "dataDevolucao = ?";
+            params.push(dataDevolucao);
+        }
+        
+        
+        try {
+            const resultado = await executarComandoSQL(query, [id, params]);
+            console.log('Busca afetuada com sucesso: ', resultado);
+            return resultado;
+          
+        } catch (err:any){
+            console.error(`Falha ao procurar Emprestimo gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
+    async filtraEmprestimo(id?:number, livroId?:number, usuarioId?:number):Promise<Emprestimo[]>{
+        let query = "SELECT * FROM biblioteca.Emprestimo where ";
+
+        const params: any[] = [];
+
+        if(id) {
+            query += "id = ?";
+            params.push(id);
+        }
+
+        if(livroId) {
+            query += "livroId = ?";
+            params.push(livroId);
+        }
+
+        if(usuarioId) {
+            query += "usuarioId = ?";
+            params.push(usuarioId);
+        }
 
         try {
-            const resultado = await executarComandoSQL(query, [id]);
-            console.log('Emprestimo localizado com sucesso, ID: ', resultado);
-            return new Promise<Emprestimo>((resolve)=>{
+            const resultado = await executarComandoSQL(query, [params]);
+            console.log('Livro localizado com sucesso, ID: ', resultado);
+            return new Promise<Emprestimo[]>((resolve)=>{
                 resolve(resultado);
             })
         } catch (err:any){
-            console.error(`Falha ao procurar Emprestimo gerando o erro: ${err}`);
+            console.error(`Falha ao procurar Livro gerando o erro: ${err}`);
             throw err;
         }
     }

@@ -137,22 +137,6 @@ class UsuarioRepository {
             }
         });
     }
-    filtraUsuario(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Usuario where id = ?";
-            try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Usuario localizado com sucesso, ID: ', resultado);
-                return new Promise((resolve) => {
-                    resolve(resultado);
-                });
-            }
-            catch (err) {
-                console.error(`Falha ao procurar Usuario gerando o erro: ${err}`);
-                throw err;
-            }
-        });
-    }
     filtrarUsuarios() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "SELECT * FROM biblioteca.Usuario";

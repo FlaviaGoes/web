@@ -90,18 +90,62 @@ class EmprestimoRepository {
             }
         });
     }
-    filtraEmprestimo(id) {
+    confirmaEmprestimoById(id, livroId, usuarioId, dataEmprestimo, dataDevolucao) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Emprestimo where id = ?";
+            let query = "SELECT * FROM biblioteca.Emprestimo where id = ? and ";
+            const params = [];
+            if (livroId) {
+                query += "livroId = ?";
+                params.push(livroId);
+            }
+            if (usuarioId) {
+                query += "usuarioId = ?";
+                params.push(usuarioId);
+            }
+            if (dataEmprestimo) {
+                query += "dataEmprestimo = ?";
+                params.push(dataEmprestimo);
+            }
+            if (dataDevolucao) {
+                query += "dataDevolucao = ?";
+                params.push(dataDevolucao);
+            }
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Emprestimo localizado com sucesso, ID: ', resultado);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id, params]);
+                console.log('Busca afetuada com sucesso: ', resultado);
+                return resultado;
+            }
+            catch (err) {
+                console.error(`Falha ao procurar Emprestimo gerando o erro: ${err}`);
+                throw err;
+            }
+        });
+    }
+    filtraEmprestimo(id, livroId, usuarioId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = "SELECT * FROM biblioteca.Emprestimo where ";
+            const params = [];
+            if (id) {
+                query += "id = ?";
+                params.push(id);
+            }
+            if (livroId) {
+                query += "livroId = ?";
+                params.push(livroId);
+            }
+            if (usuarioId) {
+                query += "usuarioId = ?";
+                params.push(usuarioId);
+            }
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [params]);
+                console.log('Livro localizado com sucesso, ID: ', resultado);
                 return new Promise((resolve) => {
                     resolve(resultado);
                 });
             }
             catch (err) {
-                console.error(`Falha ao procurar Emprestimo gerando o erro: ${err}`);
+                console.error(`Falha ao procurar Livro gerando o erro: ${err}`);
                 throw err;
             }
         });
