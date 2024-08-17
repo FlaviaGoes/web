@@ -1,6 +1,7 @@
 import { Livro } from "../model/entity/livro";
 import { LivroRepository } from "../repository/LivroRepository";
 import { CategoriaRepository } from "../repository/CategoriaRepository";
+import { EmprestimoRepository } from "../repository/EmprestimoRepository";
 
 export class LivroService {
     private LivroRepository = LivroRepository.getInstance();

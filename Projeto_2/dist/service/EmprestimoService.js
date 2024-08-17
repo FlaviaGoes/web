@@ -22,8 +22,8 @@ class EmprestimoService {
     }
     registraEmprestimo(emprestimoData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { livroId, usuarioId, dataEmprestimo, dataDevolucao } = emprestimoData;
-            const emprestimo = new emprestimo_1.Emprestimo(undefined, livroId, usuarioId, dataEmprestimo, dataDevolucao);
+            const { livroId, usuarioId, dataEmprestimo } = emprestimoData;
+            const emprestimo = new emprestimo_1.Emprestimo(undefined, livroId, usuarioId, dataEmprestimo, dataEmprestimo);
             const livroExiste = yield this.LivroRepository.filtraLivro(emprestimo.livroId);
             if (livroExiste.length == 0) {
                 throw new Error("Livro não encontrado no repositório");
@@ -40,7 +40,8 @@ class EmprestimoService {
     atualizaEmprestimo(emprestimoData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id, livroId, usuarioId, dataEmprestimo, dataDevolucao } = emprestimoData;
-            const emprestimo = new emprestimo_1.Emprestimo(id, livroId, usuarioId, dataEmprestimo, dataDevolucao);
+            const idNumber = parseInt(id, 10);
+            const emprestimo = new emprestimo_1.Emprestimo(idNumber, livroId, usuarioId, dataEmprestimo, dataEmprestimo);
             let emprestimoExiste = yield this.EmprestimoRepository.filtraEmprestimo(emprestimo.id);
             if (emprestimoExiste.length == 0) {
                 throw new Error("Emprestimo não encontrado!");
@@ -61,7 +62,8 @@ class EmprestimoService {
     deletaEmprestimo(emprestimoData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id, livroId, usuarioId, dataEmprestimo, dataDevolucao } = emprestimoData;
-            const emprestimo = new emprestimo_1.Emprestimo(id, livroId, usuarioId, dataEmprestimo, dataDevolucao);
+            const idNumber = parseInt(id, 10);
+            const emprestimo = new emprestimo_1.Emprestimo(idNumber, livroId, usuarioId, dataEmprestimo, dataEmprestimo);
             let emprestimoExiste = yield this.EmprestimoRepository.filtraEmprestimo(emprestimo.id);
             if (emprestimoExiste.length == 0) {
                 throw new Error("Emprestimo não encontrado!");
@@ -79,10 +81,10 @@ class EmprestimoService {
             return emprestimo;
         });
     }
-    filtraEmprestimo(emprestimoData) {
+    filtraEmprestimo(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const id = parseInt(emprestimoData, 10);
-            const emprestimo = yield this.EmprestimoRepository.filtraEmprestimo(id);
+            const idNumber = parseInt(id, 10);
+            const emprestimo = yield this.EmprestimoRepository.filtraEmprestimo(idNumber, undefined, undefined);
             if (emprestimo.length == 0) {
                 throw new Error("Emprestimo não encontrado!");
             }

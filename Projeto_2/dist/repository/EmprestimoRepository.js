@@ -62,7 +62,7 @@ class EmprestimoRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "UPDATE biblioteca.Emprestimo set livroId = ?, usuarioId = ?, dataEmprestimo = ?, dataDevolucao = ? where id = ?";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [emprestimo.livroId, emprestimo.usuarioId, emprestimo.dataEmprestimo, emprestimo.dataDevolucao]);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [emprestimo.livroId, emprestimo.usuarioId, emprestimo.dataEmprestimo, emprestimo.dataDevolucao, emprestimo.id]);
                 console.log('Emprestimo atualizado com sucesso!');
                 return new Promise((resolve) => {
                     resolve(emprestimo);
@@ -139,13 +139,13 @@ class EmprestimoRepository {
             }
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [params]);
-                console.log('Livro localizado com sucesso, ID: ', resultado);
+                console.log('Emprestimo localizado com sucesso, ID: ', resultado);
                 return new Promise((resolve) => {
                     resolve(resultado);
                 });
             }
             catch (err) {
-                console.error(`Falha ao procurar Livro gerando o erro: ${err}`);
+                console.error(`Falha ao procurar Emprestimo gerando o erro: ${err}`);
                 throw err;
             }
         });

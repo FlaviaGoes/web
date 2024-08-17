@@ -9,9 +9,9 @@ export class EmprestimoService {
     private UsuarioRepository = UsuarioRepository.getInstance();
 
     async registraEmprestimo(emprestimoData: any):Promise<Emprestimo>{
-        const {livroId, usuarioId, dataEmprestimo, dataDevolucao} = emprestimoData;
+        const {livroId, usuarioId, dataEmprestimo} = emprestimoData;
         
-        const emprestimo = new Emprestimo(undefined, livroId, usuarioId, dataEmprestimo, dataDevolucao);
+        const emprestimo = new Emprestimo(undefined, livroId, usuarioId, dataEmprestimo, dataEmprestimo);
 
         const livroExiste = await this.LivroRepository.filtraLivro(emprestimo.livroId)
 
@@ -32,8 +32,10 @@ export class EmprestimoService {
 
     async atualizaEmprestimo(emprestimoData: any):Promise<Emprestimo>{
         const {id, livroId, usuarioId, dataEmprestimo, dataDevolucao} = emprestimoData;
+        const idNumber = parseInt(id, 10);
 
-        const emprestimo = new Emprestimo(id, livroId, usuarioId, dataEmprestimo, dataDevolucao);
+
+        const emprestimo = new Emprestimo(idNumber, livroId, usuarioId, dataEmprestimo, dataEmprestimo);
 
         let emprestimoExiste = await this.EmprestimoRepository.filtraEmprestimo(emprestimo.id)
 
@@ -60,8 +62,9 @@ export class EmprestimoService {
 
     async deletaEmprestimo(emprestimoData: any):Promise<Emprestimo>{
         const {id, livroId, usuarioId, dataEmprestimo, dataDevolucao} = emprestimoData;
+        const idNumber = parseInt(id, 10);
 
-        const emprestimo = new Emprestimo(id, livroId, usuarioId, dataEmprestimo, dataDevolucao);
+        const emprestimo = new Emprestimo(idNumber, livroId, usuarioId, dataEmprestimo, dataEmprestimo);
 
         let emprestimoExiste = await this.EmprestimoRepository.filtraEmprestimo(emprestimo.id)
 
@@ -86,10 +89,10 @@ export class EmprestimoService {
         return emprestimo;
     }
 
-    async filtraEmprestimo(emprestimoData: any):Promise<Emprestimo[]>{
-        const id = parseInt(emprestimoData, 10);
+    async filtraEmprestimo(id:any):Promise<Emprestimo[]>{
+        const idNumber = parseInt(id, 10);
 
-        const emprestimo = await this.EmprestimoRepository.filtraEmprestimo(id);
+        const emprestimo = await this.EmprestimoRepository.filtraEmprestimo(idNumber, undefined, undefined);
 
         if(emprestimo.length == 0){
             throw new Error("Emprestimo não encontrado!");

@@ -4,6 +4,7 @@ export function verificaFormatoEmail(EmailString: string): boolean {
     if (regex.test(EmailString)) {
         EmailIsCorrect = true;
     }
+    
     return EmailIsCorrect;
 }
 

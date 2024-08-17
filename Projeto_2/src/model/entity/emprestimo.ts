@@ -10,7 +10,7 @@ export class Emprestimo {
     dataDevolucao: Date;
 
     constructor(id?:number, livroId?:number, usuarioId?:number, dataEmprestimo?:string, dataDevolucao?: string) {
-        this.validateInfo(id, livroId, usuarioId, dataEmprestimo);
+        this.validateInfo(livroId, usuarioId, dataEmprestimo);
         this.id = id || 0;
         this.livroId = livroId || 0;
         this.usuarioId = usuarioId || 0;
@@ -18,9 +18,9 @@ export class Emprestimo {
         this.dataDevolucao = calculaDateDevolucao(dataDevolucao || '');
     }
 
-    private validateInfo(id:any, livroId:any, usuarioId:any, dataEmprestimo:any){
+    private validateInfo(livroId:any, usuarioId:any, dataEmprestimo:any){
         let error ='';
-        if (typeof id !== 'number' || typeof livroId !== 'number' || typeof usuarioId !== 'number' || typeof dataEmprestimo !== 'string') {
+        if (typeof livroId !== 'number' || typeof usuarioId !== 'number' || typeof dataEmprestimo !== 'string') {
             error += ("Informações incompletas ou incorretas. ");
         }
 

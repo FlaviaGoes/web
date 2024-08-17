@@ -5,16 +5,16 @@ const DataUtil_1 = require("../../util/DataUtil");
 DataUtil_1.verificaFormatoData;
 class Emprestimo {
     constructor(id, livroId, usuarioId, dataEmprestimo, dataDevolucao) {
-        this.validateInfo(id, livroId, usuarioId, dataEmprestimo);
+        this.validateInfo(livroId, usuarioId, dataEmprestimo);
         this.id = id || 0;
         this.livroId = livroId || 0;
         this.usuarioId = usuarioId || 0;
         this.dataEmprestimo = (0, DataUtil_1.stringParaData)(dataEmprestimo || '');
         this.dataDevolucao = (0, DataUtil_1.calculaDateDevolucao)(dataDevolucao || '');
     }
-    validateInfo(id, livroId, usuarioId, dataEmprestimo) {
+    validateInfo(livroId, usuarioId, dataEmprestimo) {
         let error = '';
-        if (typeof id !== 'number' || typeof livroId !== 'number' || typeof usuarioId !== 'number' || typeof dataEmprestimo !== 'string') {
+        if (typeof livroId !== 'number' || typeof usuarioId !== 'number' || typeof dataEmprestimo !== 'string') {
             error += ("Informações incompletas ou incorretas. ");
         }
         if (!(0, DataUtil_1.verificaFormatoData)(dataEmprestimo)) {
